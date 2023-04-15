@@ -1,0 +1,15 @@
+.text-magenta {
+    color: #f50082;
+}
+
+.text-darkblue {
+    color: #00005A;
+}
+
+.bg-darkblue {
+    background-color: #00005A;
+}
+
+.border-magenta {
+    @apply border-[#f50082]
+}
