@@ -3,84 +3,53 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cluster;
+use App\Models\GeographicArea;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    
     public function index()
     {
         return view('admin.users.index');
     }
 
-    public function create()
-    {
-        return view('admin.users.create');
+    public function edit(User $user){
+
+        $profile = $user->profile;
+
+        $clusters = Cluster::all();
+
+        $delegates = User::role(['admin', 'super-admin'])->get();
+
+        $geographicAreas = GeographicArea::all();
+
+        return view('admin.users.edit', compact('user', 'profile', 'clusters', 'delegates', 'geographicAreas'));
     }
 
-    public function store(Request $request)
-    {
+    public function update(Request $request, User $user){
         $request->validate([
-            'name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'sap_number' => 'required|numeric',
+            'crm_number' => 'required|numeric',
+            'cluster_id' => 'required|numeric|exists:clusters,id',
+            'delegate_id' => 'required|numeric|exists:users,id',
+            'geographic_area_id' => 'required|numeric|exists:geographic_areas,id',
+            'max_orders_per_month' => 'required|numeric',
+            'unlimited' => 'required|boolean',
+            'sales_org' => 'required|string',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        $user->profile->update($request->all());
 
-        $user->assignRole(1);
+        if (!$user->active) {
+            $user->active = true;
+            $user->save();
+        }
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users.edit', $user)
+            ->with('flash.banner', 'La información del usuario ha sido actualizada.');
     }
 
-    public function edit(User $user)
-    {
-        return view('admin.users.edit', compact('user'));
-    }
-
-    public function update(Request $request, User $user)
-    {
-
-        $request->validate([
-            'name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|confirmed|min:6',
-        ]);
-
-        $user->update([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $user->password,
-        ]);
-
-        session()->flash('flash.alert', 'El usuario se actualizó correctamente');
-
-        return redirect()->route('admin.users.edit', $user);
-        
-    }
-
-    public function destroy(User $user)
-    {
-        $user->delete();
-
-        return redirect()->route('admin.users.index');
-    }
-
-    public function pending()
-    {
-        return view('admin.users.pending');
-    }
-
-    public function active()
-    {
-        return view('admin.users.active');
-    }
 }

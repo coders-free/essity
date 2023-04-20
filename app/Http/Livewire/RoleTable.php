@@ -26,6 +26,9 @@ class RoleTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
 
+            /* Column::make("Role")
+                ->label(fn($row) => $row->name), */
+
             Column::make("Fecha creación", "created_at")
                 ->sortable()
                 ->format(fn($value) => $value->format('d/m/Y')),
@@ -34,7 +37,7 @@ class RoleTable extends DataTableComponent
                 ->title(fn($row) => 'Editar')
                 ->location(fn($row) => route('admin.roles.edit', $row))
                 ->attributes(fn($row) => [
-                    'class' => 'btn btn-blue',
+                    'class' => 'btn btn-darkblue',
                 ]),
         ];
     }

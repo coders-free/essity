@@ -53,17 +53,24 @@
           ],
 
           [
-            'name' => 'Usuarios',
-            'icon' => 'fas fa-users',
-            'route' => route('admin.users.index'),
-            'active' => request()->routeIs('admin.users.*'),
-          ],
-
-          [
             'name' => 'Roles',
             'icon' => 'fas fa-user-tag',
             'route' => route('admin.roles.index'),
             'active' => request()->routeIs('admin.roles.*'),
+          ],
+
+          [
+            'name' => 'Empleados',
+            'icon' => 'fas fa-users-cog',            
+            'route' => route('admin.employees.index'),
+            'active' => request()->routeIs('admin.employees.*'),
+          ],
+
+          [
+            'name' => 'Usuarios',
+            'icon' => 'fas fa-users',
+            'route' => route('admin.users.index'),
+            'active' => request()->routeIs('admin.users.*'),
           ],
 
           [

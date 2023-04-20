@@ -4,12 +4,12 @@
         'url' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Usuarios',
-        'url' => route('admin.users.index'),
+        'name' => 'Empleados',
+        'url' => route('admin.employees.index'),
     ],
 
     [
-        'name' => 'Nuevo usuario',
+        'name' => 'Nuevo empleado',
     ]
 ]">
 
@@ -17,7 +17,7 @@
     <div>
         <x-card>
 
-            <form action="{{route('admin.users.store')}}" method="POST">
+            <form action="{{route('admin.employees.store')}}" method="POST">
 
                 @csrf
                 
@@ -41,6 +41,25 @@
                 {{-- Confirmar contraseña --}}
                 <div class="mb-4">
                     <x-input label="Confirmar contraseña" type="password" name="password_confirmation" placeholder="Confirme la contraseña del usuario" />
+                </div>
+
+                <div class="mb-4">
+
+                    <x-native-select label="Rol asignado" name="role_id">
+    
+                        <option>
+                            Seleccione un rol
+                        </option>
+    
+                        <option value="1" @selected(old('role_id') == 1)>
+                            Super Admin
+                        </option>
+    
+                        <option value="2" @selected(old('role_id') == 2)>
+                            Admin
+                        </option>
+                    </x-native-select>
+    
                 </div>
 
                 <div class="flex justify-end">

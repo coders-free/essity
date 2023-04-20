@@ -31,13 +31,13 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->string('phone', 10);
+            $table->string('phone');
 
             $table->string('nif_1', 9);
             $table->string('nif_2', 9);
 
             $table->integer('sap_number')->nullable();
-            $table->integer('cmr_number')->nullable();
+            $table->integer('crm_number')->nullable();
 
             $table->foreignId('cluster_id')
                 ->nullable()

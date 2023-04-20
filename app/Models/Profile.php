@@ -20,14 +20,17 @@ class Profile extends Model
         'nif_1',
         'nif_2',
         'sap_number',
-        'cmr_number',
-        'account_type',
+        'crm_number',
         'cluster_id',
         'delegate_id',
         'geographic_area_id',
         'max_orders_per_month',
         'unlimited',
         'sales_org',
+    ];
+
+    protected $casts = [
+        'unlimited' => 'boolean',
     ];
 
     public function province(){

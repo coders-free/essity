@@ -6,10 +6,9 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
-class UserTable extends DataTableComponent
+class EmployeeTable extends DataTableComponent
 {
 
     public function configure(): void
@@ -22,21 +21,22 @@ class UserTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
+
             Column::make("Nombres", "name")
                 ->sortable(),
+
             Column::make("Apellidos", "last_name")
                 ->sortable(),
+
             Column::make("Email", "email")
                 ->sortable(),
-
-            BooleanColumn::make('Active'),
 
             Column::make('Rol')
                 ->label(fn($row) => $row->roles->first()->name),
 
             LinkColumn::make('Actions')
                 ->title(fn() => 'Editar')
-                ->location(fn($row) => route('admin.users.edit', $row->id))
+                ->location(fn($row) => route('admin.employees.edit', $row->id))
                 ->attributes(fn($row) => [
                     'class' => 'btn btn-darkblue',
                 ]),
@@ -46,6 +46,6 @@ class UserTable extends DataTableComponent
     public function builder(): Builder
     {
         //Recuperar los usuarios que tienen el rol administrador
-        return User::role(['farmacia', 'ortopedia']);
+        return User::role(['admin', 'super-admin']);
     }
 }
