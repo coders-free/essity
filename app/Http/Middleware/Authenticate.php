@@ -12,6 +12,12 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
+
+        //Saber si la redireccion es de una ruta que comienza con el nombre admin
+        /* if (str_starts_with($request->path(), 'admin')) {
+            return route('admin.login');
+        } */
+
         return $request->expectsJson() ? null : route('login');
     }
 }

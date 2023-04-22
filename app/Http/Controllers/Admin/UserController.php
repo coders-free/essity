@@ -52,4 +52,26 @@ class UserController extends Controller
             ->with('flash.banner', 'La información del usuario ha sido actualizada.');
     }
 
+    public function ban(User $user){
+
+        if ($user->isBanned()) {
+            
+            $user->unban();
+
+            session()->flash('flash.banner', 'El usuario ha sido desbloqueado.');
+
+        }else{
+
+            $user->ban([
+                'expired_at' => now()->addDays(30),
+            ]);
+
+            session()->flash('flash.banner', 'El usuario ha sido bloqueado por 30 días.');
+
+        }
+        
+        
+        return redirect()->route('admin.users.index');
+    }
+
 }

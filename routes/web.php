@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', 'verified', 'account-to-verify'])->group(function () {
+Route::middleware(['auth', 'is-admin', 'verified', 'account-to-verify'])->group(function () {
     
     Route::get('/', WelcomeController::class)
         ->name('welcome');
@@ -68,4 +68,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::view('prueba', 'emails.welcome-message');
+/* Route::view('prueba', 'emails.welcome-message'); */
+
+Route::get('prueba', function () {
+    dd(auth()->user()->hasRole(['farmacia']));
+});

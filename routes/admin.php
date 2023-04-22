@@ -24,6 +24,9 @@ Route::resource('users', UserController::class)
     ->except(['show'])
     ->names('admin.users');
 
+Route::post('users/{user}/ban', [UserController::class, 'ban'])
+    ->name('admin.users.ban');
+
 Route::resource('categories', CategoryController::class)
     ->except(['show'])
     ->names('admin.categories');

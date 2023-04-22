@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 class UserTable extends DataTableComponent
 {
@@ -29,17 +30,33 @@ class UserTable extends DataTableComponent
             Column::make("Email", "email")
                 ->sortable(),
 
-            BooleanColumn::make('Active'),
+            BooleanColumn::make('Activo', 'active'),
 
             Column::make('Rol')
-                ->label(fn($row) => $row->roles->first()->name),
+                ->label(fn($row) => $row->roles->first()->name), 
 
-            LinkColumn::make('Actions')
-                ->title(fn() => 'Editar')
-                ->location(fn($row) => route('admin.users.edit', $row->id))
-                ->attributes(fn($row) => [
-                    'class' => 'btn btn-darkblue',
-                ]),
+            Column::make('Actions')
+                ->label(
+                    fn($row) => view('admin.users.table.actions', ['user' => $row])
+                )
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            SelectFilter::make('Activo')
+                ->options([
+                    '' => 'Todos',
+                    '1' => 'Si',
+                    '0' => 'No',
+                ])->filter(function(Builder $builder, string $value) {
+                    if ($value === '1') {
+                        $builder->where('active', true);
+                    } elseif ($value === '0') {
+                        $builder->where('active', false);
+                    }
+                }),
         ];
     }
 

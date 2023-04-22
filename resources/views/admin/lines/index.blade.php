@@ -9,7 +9,7 @@
 ]">
 
     <div class="flex justify-end mb-4">
-        <a href="{{route('admin.lines.create')}}" class="btn btn-blue">
+        <a href="{{route('admin.lines.create')}}" class="btn btn-magenta">
             Nuevo
         </a>
     </div>
