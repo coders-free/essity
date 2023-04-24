@@ -9,16 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class TwoFactorAuthentication extends Mailable
+class TwoFactorVerification extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $code;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($code)
     {
-        //
+        $this->code = $code;
     }
 
     /**
@@ -37,7 +39,10 @@ class TwoFactorAuthentication extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.two-factor-authentication',
+            markdown: 'emails.two-factor-verification',
+            with: [
+                'code' => $this->code,
+            ],
         );
     }
 

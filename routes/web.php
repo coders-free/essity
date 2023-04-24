@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', 'is-admin', 'verified', 'account-to-verify'])->group(function () {
+Route::middleware(['auth', 'is-admin', 'verified', '2fa', 'account-to-verify'])->group(function () {
     
     Route::get('/', WelcomeController::class)
         ->name('welcome');

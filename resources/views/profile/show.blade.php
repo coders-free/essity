@@ -1,6 +1,13 @@
 <x-app-layout>
 
+    
+
     <x-container class="px-4 py-12">
+
+        {{-- <div class="my-10 sm:mt-0">
+            @livewire('profile.two-factor-authentication-form')
+        </div> --}}
+
         <div class="card" x-data="{
             step: 1,
         }">

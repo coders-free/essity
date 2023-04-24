@@ -6,8 +6,9 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
-class TwoFactorAuthentication
+class TwoFactorVerification
 {
     /**
      * Create the event listener.
@@ -22,6 +23,14 @@ class TwoFactorAuthentication
      */
     public function handle(Login $event): void
     {
-        Mail::to($event->user->email)->send(new \App\Mail\TwoFactorAuthentication($event->user));
+        if($event->user->hasRole(['farmacia', 'ortopedia'])){
+
+            $code = Str::random(6);
+
+            session(['auth.2fa.code' => $code]);
+
+            Mail::to($event->user->email)
+                ->send(new \App\Mail\TwoFactorVerification($code));
+        }
     }
 }

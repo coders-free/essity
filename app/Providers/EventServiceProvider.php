@@ -23,7 +23,7 @@ class EventServiceProvider extends ServiceProvider
 
         Login::class => [
             \App\Listeners\Login\RestoreCartItems::class,
-            \App\Listeners\Login\TwoFactorAuthentication::class,
+            \App\Listeners\Login\TwoFactorVerification::class,
         ],
     ];
 

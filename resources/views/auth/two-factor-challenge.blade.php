@@ -15,7 +15,7 @@
 
             <x-validation-errors class="mb-4" />
 
-            <form method="POST" action="{{ route('two-factor.login') }}">
+            <form method="POST" action="{{-- {{ route('two-factor.login') }} --}}">
                 @csrf
 
                 <div class="mt-4" x-show="! recovery">
@@ -47,7 +47,7 @@
                         {{ __('Use an authentication code') }}
                     </button>
 
-                    <x-button class="ml-4">
+                    <x-button class="ml-4" type="submit">
                         {{ __('Log in') }}
                     </x-button>
                 </div>
