@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
 
     <x-container class="px-4 py-12">
 
@@ -31,4 +31,4 @@
 
     </x-container>
 
-</x-app-layout>
+</x-guest-layout>

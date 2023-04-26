@@ -16,6 +16,8 @@ class UserTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+
+        $this->setDefaultSort('id', 'desc');
     }
 
     public function columns(): array
@@ -23,11 +25,17 @@ class UserTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
+
             Column::make("Nombres", "name")
+                ->searchable()
                 ->sortable(),
+
             Column::make("Apellidos", "last_name")
+                ->searchable()
                 ->sortable(),
+
             Column::make("Email", "email")
+                ->searchable()
                 ->sortable(),
 
             BooleanColumn::make('Activo', 'active'),

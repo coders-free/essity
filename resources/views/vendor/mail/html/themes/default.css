@@ -230,8 +230,7 @@ img {
     text-decoration: none;
 }
 
-.button-blue,
-.button-primary {
+.button-blue {
     background-color: #2d3748;
     border-bottom: 8px solid #2d3748;
     border-left: 18px solid #2d3748;
@@ -257,7 +256,7 @@ img {
     border-top: 8px solid #e53e3e;
 }
 
-.button-magenta {
+.button-magenta, .button-primary {
     background-color: #f50082;
     border-bottom: 8px solid #f50082;
     border-left: 18px solid #f50082;

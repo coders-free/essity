@@ -4,11 +4,19 @@
         'url' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Categorías',
-        'url' => route('admin.categories.index'),
+        'name' => 'Productos',
+        'url' => route('admin.products.index'),
     ],
     [
         'name' => 'Crear',
     ]
 ]">
+
+
+    <x-card>
+
+        
+
+    </x-card>
+
 </x-admin-layout>

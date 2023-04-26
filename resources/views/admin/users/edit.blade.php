@@ -25,7 +25,7 @@
                 <x-inputs.number 
                     label="Número de SAP"
                     value="{{ old('sap_number', $profile->sap_number) }}"
-                    name="sap_number" />
+                    name="sap_number"  />
             </div>
 
             {{-- crm_number --}}

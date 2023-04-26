@@ -1,7 +1,4 @@
-@props([
-    'breadcrumb' => [],
-    'create' => ''
-])
+@props(['breadcrumb' => []])
 
 @php
     $links = [
@@ -94,23 +91,9 @@
     <!-- Styles -->
     @livewireStyles
 
-    <style>
-        .z-60 {
-            z-index: 60;
-        }
-    </style>
-
 </head>
 
-<body class="bg-gray-50" x-data="{
-    open: false,
-}">
-
-
-    <x-notifications z-index="z-60" />
-
-    <div style="display: none" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-20 sm:hidden" x-on:click="open = false" x-show="open">
-    </div>
+<body class="bg-gray-50">
 
     <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -118,7 +101,7 @@
                 <div class="flex items-center justify-start">
 
                     {{-- Boton para abrir el menu lateral --}}
-                    <button x-on:click="open = !open" data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
+                    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
                         aria-controls="logo-sidebar" type="button"
                         class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                         <span class="sr-only">Open sidebar</span>
@@ -141,7 +124,7 @@
 
                         <x-slot name="trigger">
                             <img class="w-8 h-8 rounded-full"
-                                    src="{{ auth()->user()->profile_photo_url }}"
+                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                                     alt="user photo">
                         </x-slot>
 
@@ -167,10 +150,6 @@
 
     <aside id="logo-sidebar"
         class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-        :class="{
-            'translate-x-0 ease-out': open,
-            '-translate-x-full ease-in': !open
-        }"
         aria-label="Sidebar">
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
@@ -194,51 +173,40 @@
     </aside>
 
     <div class="p-4 sm:ml-64">
+
         
         <div class="mt-14">
 
-            <div class="flex items-center">
-                @if ($breadcrumb)
+            @if ($breadcrumb)
                 
-                    <nav class="mb-4">
-                        <!-- breadcrumb -->
-                        <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+                <nav class="mb-4">
+                    <!-- breadcrumb -->
+                    <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
 
-                            @foreach ($breadcrumb as $item)
-                                <li
-                                    class="text-sm leading-normal capitalize text-slate-700 {{ $loop->first ? '' : "pl-2 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" }}">
+                        @foreach ($breadcrumb as $item)
+                            <li
+                                class="text-sm leading-normal capitalize text-slate-700 {{ $loop->first ? '' : "pl-2 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" }}">
 
-                                    @isset($item['url'])
-                                        <a class="opacity-50 " href="{{ $item['url'] }}">
-                                            {{ $item['name'] }}
-                                        </a>
-                                    @else
+                                @isset($item['url'])
+                                    <a class="opacity-50 " href="{{ $item['url'] }}">
                                         {{ $item['name'] }}
-                                    @endisset
+                                    </a>
+                                @else
+                                    {{ $item['name'] }}
+                                @endisset
 
-                                </li>
-                            @endforeach
-                        </ol>
+                            </li>
+                        @endforeach
+                    </ol>
 
-                        @if (count($breadcrumb) > 1)
-                            <h6 class="mb-0 font-bold capitalize">
-                                {{ end($breadcrumb)['name'] }}
-                            </h6>
-                        @endif
-                    </nav>
+                    @if (count($breadcrumb) > 1)
+                        <h6 class="mb-0 font-bold capitalize">
+                            {{ end($breadcrumb)['name'] }}
+                        </h6>
+                    @endif
+                </nav>
 
-                @endif
-
-                @if ($create)
-                
-                    <div class="ml-auto">
-                        <a href="{{$create}}" class="btn btn-magenta">
-                            Nuevo
-                        </a>
-                    </div>
-
-                @endif
-            </div>
+            @endif
 
 
             {{ $slot }}
@@ -256,60 +224,6 @@
     @livewireScripts
 
     @stack('js')
-
-    @if (session('flash.alert'))
-        <script>
-            window.addEventListener('load', function() {
-                window.$wireui.notify({
-                    title: "{{ ucfirst(session('flash.alertStyle') ?? 'success') }} Notification",
-                    description: "{{ session('flash.alert') }}",
-                    icon: "{{ session('flash.alertStyle') ?? 'success' }}"
-                });
-            });
-        </script>
-    @endif
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-
-        /* Swal.fire({
-            icon: 'success',
-            title: 'Oops...',
-            text: 'Something went wrong!',
-        }) */
-
-        /* Livewire.on('sweetalert2Error', message => {
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: message,
-            })
-
-        })
-
-        Livewire.on('sweetalert2Success', message => {
-
-          Swal.fire(
-            'Deleted!',
-            message,
-            'success'
-          )
-
-        }) */
-
-
-        Livewire.on('sweetAlert', (icon, title, text) => {
-                
-            Swal.fire({
-                icon: icon,
-                title: title,
-                text: text,
-            })
-
-        })
-    </script>
 
 </body>
 

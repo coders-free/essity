@@ -4,11 +4,11 @@
         'url' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Empleados',
+        'name' => 'Productos',
     ]
 ]"
-:create="route('admin.employees.create')">
+:create="route('admin.products.create')">
 
-    @livewire('employee-table')
+    @livewire('product-table')
 
 </x-admin-layout>

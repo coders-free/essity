@@ -40,7 +40,11 @@
         CP
     </x-label>
 
-    <x-input type="number" name="cp" value="{{old('cp')}}" class="block mt-1 w-full" />
+    <x-input type="number" 
+        name="cp" 
+        value="{{old('cp')}}" 
+        hint="Número máximo de 5 dígitos"
+        class="block mt-1 w-full" />
 </div>
 
 {{-- Provincia --}}
@@ -97,7 +101,7 @@
         Contraseña
     </x-label>
 
-    <x-input type="password" name="password" class="block mt-1 w-full" />
+    <x-inputs.password type="password" name="password" class="block mt-1 w-full" />
 
 </div>
 
@@ -107,7 +111,7 @@
         Confirmar contraseña
     </x-label>
 
-    <x-input type="password" name="password_confirmation" class="block mt-1 w-full" />
+    <x-inputs.password type="password" name="password_confirmation" class="block mt-1 w-full" />
 
 </div>
 
@@ -117,7 +121,11 @@
         NIF 1
     </x-label>
 
-    <x-input type="text" name="nif_1" value="{{old('nif_1')}}" class="block mt-1 w-full" />
+    <x-input type="text" 
+        name="nif_1" 
+        value="{{old('nif_1')}}" 
+        hint="8 números y 1 letra"
+        class="block mt-1 w-full" />
 </div>
 
 {{-- NIF 2 --}}
@@ -126,5 +134,9 @@
         NIF 2
     </x-label>
 
-    <x-input type="text" name="nif_2" value="{{old('nif_2')}}" class="block mt-1 w-full" />
+    <x-input type="text" 
+        name="nif_2" 
+        value="{{old('nif_2')}}" 
+        hint="8 números y 1 letra"
+        class="block mt-1 w-full" />
 </div>

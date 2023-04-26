@@ -9,16 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeMessage extends Mailable
+class OrderShipped extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $order;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($order)
     {
-        //
+        $this->order = $order;
     }
 
     /**
@@ -27,7 +29,7 @@ class WelcomeMessage extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome Message',
+            subject: 'Order Shipped',
         );
     }
 
@@ -37,7 +39,10 @@ class WelcomeMessage extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.welcome-message',
+            markdown: 'emails.orders.shipped',
+            with: [
+                'content' => $this->order,
+            ],
         );
     }
 

@@ -104,37 +104,41 @@
                 <img src="{{ asset('img/logo.png') }}" alt="">
             </a>
 
-            <ul class="flex text-darkblue-500 space-x-4 font-semibold text-sm">
-                <li>
-                    <a href="{{ route('products.index') }}">
-                        Pedir productos
-                    </a>
-                </li>
+            @if (auth()->user()->active)
+            
+                <ul class="flex text-darkblue-500 space-x-4 font-semibold text-sm">
+                    <li>
+                        <a href="{{ route('products.index') }}">
+                            Pedir productos
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="{{ route('products.history') }}">
-                        Historial de productos
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('products.history') }}">
+                            Historial de productos
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="">
-                        Pedir muestras y material PLV
-                    </a>
-                </li>
+                    <li>
+                        <a href="">
+                            Pedir muestras y material PLV
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="">
-                        Material digital
-                    </a>
-                </li>
+                    <li>
+                        <a href="">
+                            Material digital
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="{{route('webinars.index')}}">
-                        Videos
-                    </a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="{{route('webinars.index')}}">
+                            Videos
+                        </a>
+                    </li>
+                </ul>
+
+            @endif
         </x-container>
     </header>
 

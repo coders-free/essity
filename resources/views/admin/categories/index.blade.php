@@ -6,7 +6,8 @@
     [
         'name' => 'Categorías',
     ]
-]">
+]"
+:create="route('admin.categories.create')">
 
     @livewire('category-table')
 

@@ -14,6 +14,8 @@ class LineTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
 
+        $this->setDefaultSort('id', 'desc');
+
         $this->setBulkActions([
             'deleteSelected' => 'Eliminar',
         ]);
@@ -35,6 +37,7 @@ class LineTable extends DataTableComponent
                 ->title(fn() => "Editar")
                 ->location(fn($row) => route('admin.lines.edit', $row->id))
                 ->attributes(fn() => ['class' => 'btn btn-darkblue']),
+
         ];
     }
 
@@ -56,9 +59,11 @@ class LineTable extends DataTableComponent
         }
 
         if($error){
-            $this->emit('sweetalert2Error', 'Uno o más registros no se pudieron eliminar.');
+            
+            $this->emit('sweetAlert', 'error', 'Oops...', 'Una o más lineas no se pudieron eliminar porque tienen categorias asociadas.');
+
         }else{
-            $this->emit('sweetalert2Success', 'Registros eliminados correctamente.');
+            $this->emit('sweetAlert', 'success', 'Deleted!', 'Registros eliminados correctamente.');
         }
 
 

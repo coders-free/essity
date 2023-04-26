@@ -114,7 +114,7 @@
 
                             <x-checkbox id="terms" name="terms" class="mr-2" :checked="old('terms')" />
 
-                            <p>Lee y acepta la <a href="#" class="text-magenta">política y privacidad</a></p>
+                            <p>Lee y acepta la <a href="{{route('privacy-policy')}}" target="_blank" class="text-magenta-500 font-semibold">política y privacidad</a></p>
 
                         </label>
 
@@ -221,8 +221,6 @@
                     $('#towns').val(null).trigger('change');
                 });
             });
-
-
 
             const termsCheckbox = document.getElementById("terms");
             const submitButton = document.getElementById("submitButton");

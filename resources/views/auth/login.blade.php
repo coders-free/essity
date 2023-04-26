@@ -35,7 +35,7 @@
                                     Contraseña
                                 </x-label>
 
-                                <x-input type="password" name="password" class="w-full" />
+                                <x-inputs.password type="password" name="password" class="w-full" />
                             </div>
 
                             <div class="block mb-4">

@@ -1,6 +1,6 @@
 <div class="flex space-x-2">
     <a href="{{route('admin.users.edit', $user)}}" class="btn btn-darkblue">
-        Editar
+        Gestionar
     </a>
 
     <form action="{{route('admin.users.ban', $user)}}" method="POST">

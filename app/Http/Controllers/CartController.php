@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -59,7 +60,7 @@ class CartController extends Controller
             });
         });
         
-        Order::create([
+        $order = Order::create([
             'user_id' => auth()->id(),
             'cooperative_id' => $request->cooperative_id ?? null,
             'nif' => $request->nif,
@@ -69,6 +70,9 @@ class CartController extends Controller
 
         Cart::destroy();
         Cart::store(auth()->id());
+
+
+        Mail::to(auth()->user()->email)->send(new \App\Mail\OrderShipped($order));
 
         return redirect()->route('products.history');
     }

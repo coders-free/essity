@@ -17,6 +17,8 @@ class CategoryTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
 
+        $this->setDefaultSort('id', 'desc');
+
         $this->setBulkActions([
             'deleteSelected' => 'Eliminar',
         ]);
@@ -68,9 +70,9 @@ class CategoryTable extends DataTableComponent
         }
 
         if($error){
-            $this->emit('sweetalert2Error', 'Uno o más registros no se pudieron eliminar.');
+            $this->emit('sweetAlert', 'error', 'Oops...', 'Una o más categorías no se pudieron eliminar porque tienen productos asociados.');
         }else{
-            $this->emit('sweetalert2Success', 'Registros eliminados correctamente.');
+            $this->emit('sweetAlert', 'success', 'Deleted!', 'Registros eliminados correctamente.');
         }
 
 

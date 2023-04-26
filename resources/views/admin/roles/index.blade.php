@@ -6,13 +6,8 @@
     [
         'name' => 'Roles',
     ]
-]">
-
-    <div class="flex justify-end mb-4">
-        <a href="{{route('admin.roles.create')}}" class="btn btn-magenta">
-            Nuevo rol
-        </a>
-    </div>
+]"
+:create="route('admin.roles.create')">
 
     @livewire('role-table')
 

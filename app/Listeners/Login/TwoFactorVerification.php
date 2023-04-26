@@ -25,12 +25,18 @@ class TwoFactorVerification
     {
         if($event->user->hasRole(['farmacia', 'ortopedia'])){
 
-            $code = Str::random(6);
+            //Si el usuario ha sido creado hace menos de 10 seg, no se envía el correo
 
-            session(['auth.2fa.code' => $code]);
+            if ($event->user->created_at->diffInSeconds(now()) > 10) {
+                
+                $code = Str::random(6);
 
-            Mail::to($event->user->email)
-                ->send(new \App\Mail\TwoFactorVerification($code));
+                session(['auth.2fa.code' => $code]);
+
+                Mail::to($event->user->email)
+                    ->send(new \App\Mail\TwoFactorVerification($code));
+
+            }
         }
     }
 }

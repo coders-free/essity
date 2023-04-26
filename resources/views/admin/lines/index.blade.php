@@ -6,13 +6,8 @@
     [
         'name' => 'Lineas',
     ]
-]">
-
-    <div class="flex justify-end mb-4">
-        <a href="{{route('admin.lines.create')}}" class="btn btn-magenta">
-            Nuevo
-        </a>
-    </div>
+]"
+:create="route('admin.lines.create')">
 
     @livewire('line-table')
 

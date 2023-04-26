@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\LineController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,7 @@ Route::resource('categories', CategoryController::class)
 Route::resource('lines', LineController::class)
     ->except(['show'])
     ->names('admin.lines');
+
+Route::resource('products', ProductController::class)
+    ->except(['show'])
+    ->names('admin.products');
