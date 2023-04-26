@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Line;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -21,7 +22,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        $lines = Line::all();
+
+        return view('admin.categories.create', compact('lines'));
     }
 
     /**
@@ -29,7 +32,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:categories',
+            'line_id' => 'required|exists:lines,id',
+            'maximum_orders' => 'required|integer|min:1',
+        ]);
+
+        $category = Category::create($data);
+
+        session()->flash('flash.alert', 'La categoría se creó correctamente');
+
+        return redirect()->route('admin.categories.edit', $category);
     }
 
     /**
@@ -45,7 +58,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('admin.categories.edit', compact('category'));
+        $lines = Line::all();
+
+        return view('admin.categories.edit', compact('category', 'lines'));
     }
 
     /**
@@ -53,7 +68,17 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'line_id' => 'required|exists:lines,id',
+            'maximum_orders' => 'required|integer|min:1',
+        ]);
+
+        $category->update($data);
+
+        session()->flash('flash.alert', 'La categoría se actualizó correctamente');
+
+        return redirect()->route('admin.categories.edit', $category);
     }
 
     /**
