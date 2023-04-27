@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Cooperative;
 use App\Models\Webinar;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        Storage::deleteDirectory('products');
+        Storage::makeDirectory('products');
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
@@ -33,6 +38,7 @@ class DatabaseSeeder extends Seeder
             LineSeeder::class,
             ClusterSeeder::class,
             GeographicAreaSeeder::class,
+            VariantSeeder::class,
         ]);
         
     }

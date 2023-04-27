@@ -108,7 +108,7 @@
             
                 <ul class="flex text-darkblue-500 space-x-4 font-semibold text-sm">
                     <li>
-                        <a href="{{ route('products.index') }}">
+                        <a href="{{ route('lines.index') }}">
                             Pedir productos
                         </a>
                     </li>

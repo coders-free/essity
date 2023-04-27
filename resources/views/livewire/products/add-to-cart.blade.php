@@ -16,7 +16,7 @@
                 
                 <p class="py-2">CN: {{ $product->code }}</p>
 
-                <hr class="magentadmb-4">
+                <hr class="mb-4">
 
                 <div class="flex justify-end items-center mb-4" x-data="{
                     qty: @entangle('qty').defer

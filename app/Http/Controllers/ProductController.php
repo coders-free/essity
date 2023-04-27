@@ -15,7 +15,7 @@ class ProductController extends Controller
         if ($line == null) {
             $line = Line::first();
 
-            return redirect()->route('products.index', $line);
+            return redirect()->route('lines.index', $line);
         }
 
         $line->load(['categories' => function($query) use ($category){
@@ -31,7 +31,7 @@ class ProductController extends Controller
 
         /* return $categories; */
 
-        return view('products.index', compact('lines', 'line', 'categories'));
+        return view('products.index', compact('lines', 'line', 'categories', 'category'));
     }
 
     public function show(Product $product){

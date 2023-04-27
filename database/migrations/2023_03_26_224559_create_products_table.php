@@ -20,11 +20,14 @@ return new class extends Migration
 
             $table->text('details')->nullable();
 
-            $table->string('image')->nullable();
+            $table->string('image_url')->nullable();
 
             $table->foreignId('category_id')
                 ->constrained()
                 ->onDelete('cascade');
+
+            //Muestras gratis
+            $table->boolean('free_sample')->default(false);
 
             $table->timestamps();
         });

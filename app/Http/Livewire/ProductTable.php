@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Product;
+use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
 class ProductTable extends DataTableComponent
@@ -28,17 +29,15 @@ class ProductTable extends DataTableComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make("Name", "name")
-                ->searchable()
-                ->sortable(),
-
-            Column::make("Details", "details")
+            Column::make("Nombre", "name")
                 ->searchable()
                 ->sortable(),
             
             Column::make("Categoría", "category.name")
                 ->searchable()
                 ->sortable(),
+
+            BooleanColumn::make('Muestra gratis', 'free_sample'),
 
             LinkColumn::make("Action")
                 ->title(fn() => "Editar")

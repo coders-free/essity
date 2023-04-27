@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -21,7 +23,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::all();
+
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -29,7 +33,22 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'code' => 'required|unique:products',
+            'name' => 'required',
+            'details' => 'required',
+            'image' => 'required|image',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $data['image_url'] = Storage::put('products', $data['image']);
+
+        $product = Product::create($data);
+
+        session()->flash('flash.alert', 'La línea se creó correctamente');
+
+        return redirect()->route('admin.products.edit', $product);
+        
     }
 
     /**
@@ -45,7 +64,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('admin.products.edit', compact('product'));
+        $categories = Category::all();
+        
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -53,7 +74,27 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $data = $request->validate([
+            'code' => 'required|unique:products,code,' . $product->id,
+            'name' => 'required',
+            'details' => 'required',
+            'image' => 'nullable|image',
+            'category_id' => 'required|exists:categories,id',
+            'free_sample' => 'boolean',
+        ]);
+
+        if ($request->hasFile('image')) {
+
+            Storage::delete($product->image_url);
+
+            $data['image_url'] = Storage::put('products', $data['image']);
+        }
+
+        $product->update($data);
+
+        session()->flash('flash.alert', 'La línea se actualizó correctamente');
+
+        return redirect()->route('admin.products.edit', $product);
     }
 
     /**

@@ -21,8 +21,9 @@ class ProductFactory extends Factory
             'code' => $this->faker->numberBetween(100000000, 999999999),
             'name' => $this->faker->name(),
             'details' => $this->faker->text(),
-            'image' => $this->faker->imageUrl(),
+            'image_url' => 'products/' . $this->faker->image('public/storage/products', 640, 480, null, false),
             'category_id' => Category::all()->random()->id,
+            'free_sample' => $this->faker->boolean(20),
         ];
     }
 }

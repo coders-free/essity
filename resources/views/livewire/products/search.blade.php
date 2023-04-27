@@ -1,12 +1,12 @@
 <div>
     <div class="flex items-center">
         <x-select
-        class="flex-1"
-        wire:model.defer="product_id"
-        placeholder="Buscar producto..."
-        :async-data="route('api.products.index')"
-        option-label="name"
-        option-value="id"
+            class="flex-1"
+            wire:model.defer="product_id"
+            placeholder="Buscar producto..."
+            :async-data="route('api.products.index')"
+            option-label="name"
+            option-value="id"
         />
 
         <button class="px-4" wire:click="redirect2()">

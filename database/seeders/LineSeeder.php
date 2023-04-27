@@ -23,7 +23,11 @@ class LineSeeder extends Seeder
         ];
 
         foreach ($lines as $line) {
-            Line::create(['name' => $line]);
+            Line::create([
+                'name' => $line,
+                /* 'image_url' => $line . '-300x300.png' */
+                'image_url' => "lines/{$line}-300x300.png"
+            ]);
         }
 
         Category::factory(20)->create();

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Line;
+use App\Models\Variant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LineController extends Controller
 {
@@ -21,7 +23,9 @@ class LineController extends Controller
      */
     public function create()
     {
-        return view('admin.lines.create');
+        $variants = Variant::all();
+
+        return view('admin.lines.create', compact('variants'));
     }
 
     /**
@@ -29,11 +33,22 @@ class LineController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|unique:lines,name',
+            'variants' => 'required',
+            'image' => 'required|image',
         ]);
 
-        $line = Line::create($request->all());
+        //Variantes
+        $variants = $request->variants;
+        $variants = str_replace('[', '', $variants);
+        $variants = str_replace(']', '', $variants);
+        $variants = explode(',', $variants);
+
+        $data['image_url'] = $request->file('image')->store('lines');
+
+        $line = Line::create($data);
+        $line->variants()->sync($variants);
 
         return redirect()->route('admin.lines.edit', $line)
             ->with('flash.alert', 'La línea se creó correctamente');
@@ -52,7 +67,10 @@ class LineController extends Controller
      */
     public function edit(Line $line)
     {
-        return view('admin.lines.edit', compact('line'));
+
+        $variants = Variant::all();
+
+        return view('admin.lines.edit', compact('line', 'variants'));
     }
 
     /**
@@ -60,11 +78,30 @@ class LineController extends Controller
      */
     public function update(Request $request, Line $line)
     {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|unique:lines,name,' . $line->id,
+            'variants' => 'required',
+            'image' => 'nullable|image'
         ]);
 
-        $line->update($request->all());
+
+        $variants = $request->variants;
+
+        $variants = str_replace('[', '', $variants);
+        $variants = str_replace(']', '', $variants);
+
+        $variants = explode(',', $variants);
+
+        if ($request->hasFile('image')) {
+
+            Storage::delete($line->image_url);
+
+            $data['image_url'] = Storage::put('lines', $request->file('image'));
+        }
+
+        $line->update($data);
+
+        $line->variants()->sync($variants);
 
         return redirect()->route('admin.lines.edit', $line)
             ->with('flash.alert', 'La línea se actualizó correctamente');
