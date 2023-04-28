@@ -15,14 +15,40 @@ class VariantSeeder extends Seeder
     public function run(): void
     {
         $variants = [
-            'talla', 'color', 'tamaño cadera', 'reembolsos/otc', 'medidas', 'sexo', 'otc/rx'
+            'talla' => [
+                's', 'm', 'l', 'xl', 'xxl'
+            ],
+            'color' => [
+                "#000000", '#ffffff', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff', '#c0c0c0', '#808080', '#800000', '#808000', '#008000', '#800080', '#008080', '#000080'
+            ],
+            'tamaño cadera' => [
+                'pequeño', 'mediano', 'grande', 'extra grande'
+            ],
+            'reembolsos/otc' => [
+                'reembolsos', 'otc'
+            ],
+            'medidas' => [
+                'pequeño', 'mediano', 'grande', 'extra grande'
+            ],
+            'sexo' => [
+                'hombre', 'mujer'
+            ],
+            'otc/rx' => [
+                'otc', 'rx'
+            ],
         ];
 
-        foreach ($variants as $variant) {
+        foreach ($variants as $variant => $features) {
             
-            Variant::create([
+            $variant = Variant::create([
                 'name' => $variant
             ]);
+
+            foreach ($features as $feature) {
+                $variant->features()->create([
+                    'name' => $feature
+                ]);
+            }
 
         }
 

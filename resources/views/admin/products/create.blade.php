@@ -12,7 +12,9 @@
     ]
 ]">
 
-    <form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
+    @livewire('admin.products.create')
+
+    {{-- <form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
 
         @csrf
 
@@ -114,6 +116,6 @@
             }
 
         </script>
-    @endpush
+    @endpush --}}
 
 </x-admin-layout>

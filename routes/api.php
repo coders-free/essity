@@ -41,3 +41,22 @@ Route::get('/products', function(Request $request){
         ->get();
 
 })->name('api.products.index');
+
+
+Route::get('/features', function(Request $request){
+
+    $search = $request->search;
+    $variant_id = $request->variant_id;
+
+    return \App\Models\Feature::where('variant_id', $variant_id)
+        ->when($search, function($query, $search){
+            return $query->where('name', 'like', '%' . $search . '%');
+        })
+        ->when(
+            $request->exists('selected'),
+            fn ($query) => $query->whereIn('id', $request->input('selected', [])),
+            fn ($query) => $query->limit(10)
+        )
+        ->get();
+
+})->name('api.features.index');

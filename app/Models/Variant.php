@@ -11,6 +11,15 @@ class Variant extends Model
 
     protected $fillable = ['name'];
 
+    //Relacion uno a muchos
+    /* public function attributes(){
+        return $this->hasMany(Attribute::class);
+    } */
+
+    public function features(){
+        return $this->hasMany(Feature::class);
+    }
+
     //Relacion muchos a muchos
     public function lines(){
         return $this->belongsToMany(Line::class)

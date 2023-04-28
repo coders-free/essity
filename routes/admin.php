@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\LineController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VariantController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,13 +29,17 @@ Route::resource('users', UserController::class)
 Route::post('users/{user}/ban', [UserController::class, 'ban'])
     ->name('admin.users.ban');
 
-Route::resource('categories', CategoryController::class)
+Route::resource('variants', VariantController::class)
     ->except(['show'])
-    ->names('admin.categories');
+    ->names('admin.variants');
 
 Route::resource('lines', LineController::class)
     ->except(['show'])
     ->names('admin.lines');
+
+Route::resource('categories', CategoryController::class)
+    ->except(['show'])
+    ->names('admin.categories');
 
 Route::resource('products', ProductController::class)
     ->except(['show'])

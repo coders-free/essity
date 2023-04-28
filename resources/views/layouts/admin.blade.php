@@ -40,6 +40,13 @@
         /* [
             'header' => 'Productos',
         ], */
+
+        [
+            'name' => 'Variantes',
+            'icon' => 'fas fa-clone',
+            'route' => route('admin.variants.index'),
+            'active' => request()->routeIs('admin.variants.*'),
+        ],
     
         [
             'name' => 'Lineas',

@@ -52,7 +52,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('cart/checkout', [CartController::class, 'checkout'])
             ->name('cart.checkout');
 
-
         Route::post('cart/checkout', [CartController::class, 'store'])
             ->name('cart.store');
 
