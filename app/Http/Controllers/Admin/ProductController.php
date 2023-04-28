@@ -35,7 +35,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        $validate = [
+        /* $validate = [
             'image' => 'required|image',
             'code' => 'required|unique:products',
             'name' => 'required',
@@ -56,10 +56,10 @@ class ProductController extends Controller
 
         $data = $request->validate($validate);
 
-        return $request->all();
+        return $request->all(); */
 
 
-        /* $data = $request->validate([
+        $data = $request->validate([
             'code' => 'required|unique:products',
             'name' => 'required',
             'details' => 'required',
@@ -73,7 +73,7 @@ class ProductController extends Controller
 
         session()->flash('flash.alert', 'La línea se creó correctamente');
 
-        return redirect()->route('admin.products.edit', $product); */
+        return redirect()->route('admin.products.edit', $product);
         
     }
 
