@@ -102,7 +102,7 @@
 
     <div class="flex">
 
-        <a href="{{route('products.index')}}" class="btn btn-outline-magenta">
+        <a href="{{route('lines.index')}}" class="btn btn-outline-magenta">
             VOLVER
         </a>
 

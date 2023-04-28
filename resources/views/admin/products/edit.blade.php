@@ -79,9 +79,13 @@
 
             <div class="flex justify-end">
 
-                <button class="btn btn-magenta">
+                <x-button type="button" gray class="mr-2" href="{{route('admin.products.variants', $product)}}">
+                    Variantes
+                </x-button>
+
+                <x-button pink type="submit">
                     Actualizar
-                </button>
+                </x-button>
 
             </div>
 

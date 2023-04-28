@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Rules\Recaptcha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -14,7 +15,7 @@ class ContactController extends Controller
 
     public function store(Request $request){
 
-        $request->validate([
+        $data = $request->validate([
             'pharmacy_name' => 'required',
             'address' => 'required',
             'postal_code' => 'required',
@@ -30,6 +31,9 @@ class ContactController extends Controller
             'g-recaptcha-response' => ['required', new Recaptcha],
         ]);
 
+        /* return $data; */
+
+        Message::create($data);
 
         return redirect()->route('contact.index')->with('flash.banner', 'Gracias por tu mensaje. Estaremos en contacto.');
     }

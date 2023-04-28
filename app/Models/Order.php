@@ -35,4 +35,13 @@ class Order extends Model
         });
 
     }
+
+    //Relacion uno a muchos inversa
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function cooperative(){
+        return $this->belongsTo(Cooperative::class);
+    }
 }

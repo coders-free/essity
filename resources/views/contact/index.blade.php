@@ -82,7 +82,7 @@
                             CIF/NIF 2 <span class="text-gray-400">(Opcional)</span>
                         </x-label>
 
-                        <x-input type="text" value="{{old('nif_2')}}" name="nif_1" class="w-full" />
+                        <x-input type="text" value="{{old('nif_2')}}" name="nif_2" class="w-full" />
                     </div>
 
                     <div class="bg-gray-100 p-4 mb-4">

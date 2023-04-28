@@ -130,4 +130,17 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function variants(Product $product){
+
+        $line = Line::whereHas('categories', function($query) use ($product){
+            return $query->where('id', $product->category_id);
+        })->with('variants')
+            ->first();
+
+        /* return $line; */
+
+
+        return view('admin.products.variants', compact('product', 'line'));
+    }
 }

@@ -6,7 +6,7 @@
 
         <div class="mb-4">
             
-            <div class="flex">
+            <div class="flex items-center">
                 <form action="" class="flex-1 flex items-center">
                     <x-select
                         class="flex-1"
@@ -22,6 +22,11 @@
                         <i class="fa-solid fa-magnifying-glass text-magenta-500 text-2xl"></i>
                     </button>
                 </form>
+
+                <a href="{{route('cart.index')}}">
+                    <i class="fa-solid fa-cart-shopping text-magenta-500 text-2xl"></i>
+                    {{-- <img class="h-6" src="{{asset('img/icons/cart-shopping-24pink.svg')}}" alt=""> --}}
+                </a>
             </div>
 
         </div>
@@ -90,7 +95,7 @@
                                 <article class="border border-gray-200 p-4">
 
                                     <figure class="mb-4">
-                                        <img src="{{$product->image}}" alt="">
+                                        <img class="aspect-video object-cover object-center" src="{{$product->image}}" alt="">
                                     </figure>
 
                                     <p class="font-semibold">

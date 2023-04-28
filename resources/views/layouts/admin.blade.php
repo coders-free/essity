@@ -67,6 +67,20 @@
             'icon' => 'fas fa-boxes',
             'route' => route('admin.products.index'),
             'active' => request()->routeIs('admin.products.*'),
+        ],
+
+        [
+            'name' => 'Ordenes',
+            'icon' => 'fas fa-shopping-cart',
+            'route' => route('admin.orders.index'),
+            'active' => request()->routeIs('admin.orders.*'),
+        ],
+
+        [
+            'name' => 'Mensajes',
+            'icon' => 'fas fa-envelope',
+            'route' => route('admin.messages.index'),
+            'active' => request()->routeIs('admin.messages.*'),
         ]
     ];
     
