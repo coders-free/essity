@@ -26,6 +26,11 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email');
 
+            $table->longText('body');
+
+            $table->string('subject')->nullable();
+            $table->longText('response')->nullable();
+
             $table->boolean('responded')->default(false);
 
             $table->timestamps();

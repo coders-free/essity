@@ -27,6 +27,7 @@ class ContactController extends Controller
             'name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email',
+            'body' => 'required',
             'terms' => 'required|accepted',
             'g-recaptcha-response' => ['required', new Recaptcha],
         ]);

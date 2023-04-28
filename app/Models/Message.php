@@ -21,5 +21,6 @@ class Message extends Model
         "name",
         "last_name",
         "email",
+        "body",
     ];
 }

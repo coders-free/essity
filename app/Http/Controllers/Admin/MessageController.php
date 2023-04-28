@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Message;
 use App\Http\Controllers\Controller;
+use App\Mail\ContactsMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller
 {
@@ -29,7 +31,7 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -37,7 +39,7 @@ class MessageController extends Controller
      */
     public function show(Message $message)
     {
-        //
+        return view('admin.messages.show', compact('message'));
     }
 
     /**
@@ -53,7 +55,22 @@ class MessageController extends Controller
      */
     public function update(Request $request, Message $message)
     {
-        //
+        $data = $request->validate([
+            'subject' => 'required',
+            'body' => 'required',
+        ]);
+
+        $message->subject = $data['subject'];
+        $message->response = $data['body'];
+        $message->responded = true;
+
+        $message->save();
+
+        Mail::to($message->email)->send(new ContactsMessage($message));
+
+        session()->flash('flash.alert', 'El mensaje ha sido enviado');
+
+        return redirect()->route('admin.messages.show', $message);
     }
 
     /**

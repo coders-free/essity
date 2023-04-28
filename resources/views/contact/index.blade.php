@@ -122,8 +122,8 @@
                             Mensaje
                         </x-label>
 
-                        <x-textarea name="message">
-                            {{old('message')}}
+                        <x-textarea name="body">
+                            {{old('body')}}
                         </x-textarea>
                     </div>
 
