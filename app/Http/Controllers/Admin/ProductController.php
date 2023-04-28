@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Line;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,10 +35,31 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
+        $validate = [
+            'image' => 'required|image',
+            'code' => 'required|unique:products',
+            'name' => 'required',
+            'details' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'free_sample' => 'boolean',
+        ];
+
+        $line = Line::whereHas('categories', function($query) use ($request){
+            return $query->where('id', $request->category_id);
+        })->with('variants')
+        ->first();
+
+        foreach ($line->variants as $variant) {
+            $validate[ucfirst($variant->name)] = 'required';
+        }
+
+
+        $data = $request->validate($validate);
+
         return $request->all();
 
 
-        $data = $request->validate([
+        /* $data = $request->validate([
             'code' => 'required|unique:products',
             'name' => 'required',
             'details' => 'required',
@@ -51,7 +73,7 @@ class ProductController extends Controller
 
         session()->flash('flash.alert', 'La línea se creó correctamente');
 
-        return redirect()->route('admin.products.edit', $product);
+        return redirect()->route('admin.products.edit', $product); */
         
     }
 

@@ -33,34 +33,41 @@
 
         </div>
 
-        <x-card>        
+        <x-card>
 
+            {{-- <x-errors only="name|email" /> --}}
+
+            <x-errors class="mb-4" />
+
+            {{-- Código --}}
             <div class="mb-4">
 
                 <x-input label="Código" 
-                    wire:model="product.code"
                     name="code"
                     value="{{old('code')}}"
                     type="number"
-                    placeholder="Por favor ingrese el código del producto" />
+                    placeholder="Por favor ingrese el código del producto"
+                
+                />
 
             </div>
 
+            {{-- Nombre --}}
             <div class="mb-4">
 
                 <x-input label="Nombre" 
-                    wire:model="product.name"
                     name="name"
                     value="{{old('name')}}"
                     placeholder="Por favor ingrese el nombre del producto" />
 
             </div>
 
+            {{-- Detalle --}}
             <div class="mb-4">
 
                 <x-textarea label="Detalle" 
-                    wire:model="product.details"
                     name="details"
+                    value="{{old('details')}}"
                     placeholder="Por favor ingrese el detalle del producto">{{old('details')}}</x-textarea>
 
             </div>
@@ -68,13 +75,20 @@
             <div class="mb-4">
                 <x-native-select 
                     label="Categoría" 
-                    :options="$categories"
-                    option-label="name"
-                    option-value="id"
-                    wire:model="product.category_id"
+                    wire:model="category_id"
                     name="category_id"
                     selected="2"
-                    />
+                >
+
+                    @foreach ($categories as $category)
+                        
+                        <option value="{{$category->id}}" @selected(old('category_id') == $category->id)>
+                            {{$category->name}}
+                        </option>
+                        
+                    @endforeach
+
+                </x-native-select>
             </div>
 
 
@@ -83,10 +97,8 @@
                 @foreach ($this->line->variants as $variant)
                     
                     <div class="mb-4">
-                        {{-- {{$variant->name}} --}}
 
                         <x-select :label="ucfirst($variant->name)"
-                            value="[1, 2]"
                             placeholder="Seleccione un atributo"
                             multiselect
                             :async-data="[
@@ -98,7 +110,7 @@
                             option-label="name"
                             option-value="id" 
                             name="{{strtolower($variant->name)}}"
-                            
+                            value="{{old(strtolower($variant->name))}}"
                             />
 
                     </div>
@@ -109,7 +121,8 @@
             @endif
 
             <div class="mb-4">
-                <x-toggle md label="Muestras gratis" wire:model="product.free_sample" value="1" />
+                <input type="hidden" name="free_sample" value="0">
+                <x-toggle md label="Muestras gratis" name="free_sample" value="1" />
             </div>
 
             <div class="flex justify-end">

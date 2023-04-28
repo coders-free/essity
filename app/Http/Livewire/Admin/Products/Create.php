@@ -18,27 +18,22 @@ class Create extends Component
 
     public $categories;
 
-    public $product = [
-        'code' => '123',
-        'name' => 'ass',
-        'details' => 'assa',
-        'image_url' => 'assa',
-        'category_id' => '1',
-        'free_sample' => 1,
-    ];
+    public $category_id;
 
     public function mount()
     {
         $this->categories = Category::all();
+
+        $this->category_id = old('category_id', $this->categories->first()->id);
     }
 
 
     public function getLineProperty(){
         
-        if($this->product['category_id']){
+        if($this->category_id){
 
             return Line::whereHas('categories', function($query){
-                return $query->where('id', $this->product['category_id']);
+                return $query->where('id', $this->category_id);
             })->with('variants')
             ->first();
 
