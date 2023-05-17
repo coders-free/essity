@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Admin\Products;
 
+use App\Models\Feature;
+use App\Models\Variant;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 
@@ -32,10 +34,22 @@ class Variants extends Component
         $this->validate([
             'code' => 'required|unique:variants,code|unique:products,code',
             'features' => 'required|array',
-            'features.*' => 'required|exists:features,id',
         ], [
             'features.*.required' => 'Debe seleccionar al menos una opción',
         ]);
+
+        foreach ($this->features as $key => $value) {
+            if (is_string($value) && strpos($value, '#') === 0) {
+
+
+                $feature = Feature::where('value', $value)
+                                        ->first();
+
+                $this->features[$key] = $feature->id;
+            }
+        }
+
+
 
         $variant = $this->product->variants()->create([
             'code' => $this->code,
@@ -54,6 +68,16 @@ class Variants extends Component
             $description = 'La variante se creó con éxito.'
         );
 
+    }
+
+
+    public function destroy(Variant $variant){
+        $variant->delete();
+
+        $this->notification()->success(
+            $title = 'Variante eliminada',
+            $description = 'La variante se eliminó con éxito.'
+        );
     }
 
     public function render()

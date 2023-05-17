@@ -9,9 +9,16 @@ use Livewire\Component;
 class AddToCart extends Component
 {
 
-    public $product;
+    public $product, $variant;
 
     public $qty = 0;
+
+
+    public function mount()
+    {
+        $this->variant = $this->product->variants->first();
+    }
+
 
     public function getItemProperty(){
 

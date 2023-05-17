@@ -14,11 +14,6 @@
                             @switch($option->type)
                                 @case(App\Enums\TypeOptions::Text)
 
-                                    {{-- <x-input 
-                                        class="w-full"
-                                        wire:model.defer="features.{{ $index }}.value"
-                                        placeholder="Ingrese el nombre de una sección" /> --}}
-
                                     <x-jet-input class="w-full mr-2" type="text"
                                         wire:model.defer="features.{{ $index }}.value" />
                                     

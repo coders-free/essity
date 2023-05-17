@@ -8,24 +8,59 @@
             </button>
         </x-slot>
      
-        {{-- This product doesn't have any options --}}
+        <div class="space-y-8">
 
+            @foreach ($product->variants()->get() as $variant)
 
+                <div class="p-6 rounded-lg border border-gray-200 relative" wire:key="variant-{{$variant->id}}">
 
-        @foreach ($product->variants()->get() as $variant)
-            {{-- {{$loop->iteration}} --}}
+                    <span class="absolute -top-3 px-4 bg-white">
+                        Código: {{$variant->code}}
+                    </span>
 
+                    <div class="flex">
+                        <ul class="space-y-4">
+                            @foreach ($variant->features as $feature)
+                                <li>
 
-            <div class="p-6 rounded-lg border border-gray-200 relative">
+                                    <p class="font-semibold">
+                                        {{$feature->option->name}}
+                                    </p>
 
-                <span class="absolute -top-3 px-4 bg-white">
-                    Variante {{$loop->iteration}}
-                </span>
+                                    @switch($feature->option->type)
+                                        @case(App\Enums\TypeOptions::Text)
 
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae quasi quisquam distinctio deserunt, reiciendis expedita laboriosam obcaecati explicabo asperiores sint natus alias doloremque veritatis quis velit est a quas accusantium!</p>
-            </div>
+                                            <p>{{$feature->value}}</p>
 
-        @endforeach
+                                        @break
+                                        @case(App\Enums\TypeOptions::Color)
+                                            
+
+                                            <span class="inline-flex justify-center w-28 rounded-lg shadow text-white font-semibold px-4 py-2 uppercase"
+                                                style="background: {{$feature->value}}">
+                                                {{$feature->value}}
+                                            </span>
+
+                                            @break
+                                        @default
+                                            
+                                    @endswitch
+                                </li>
+                            @endforeach
+                            
+                        </ul>
+
+                        <div class="ml-auto">
+                            <button class="btn btn-red" wire:click="destroy({{$variant->id}})">
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            @endforeach
+
+        </div>
 
 
     </x-card>
@@ -54,22 +89,65 @@
 
         <div class="space-y-4">
 
+            
+
             @foreach ($options as $option)
             
                 <div>
-                    <x-select
+                    {{-- <x-select
                         :label="$option->name"
-                        wire:model.defer="features.{{ $option->id }}"
+                        wire:model="features.{{ $option->id }}"
                         placeholder="Seleccione una opción"
-                        :async-data="[
-                            'api' => route('api.features.index'),
-                            'params' => [
-                                'option_id' => $option->id
-                            ]
-                        ]"
-                        option-label="value"
+                        
+                        :options="$option->features()->select('value as name', 'id')->get()"
+
+                        option-label="name"
                         option-value="id"
-                    />
+                    /> --}}
+
+
+                    @switch($option->type)
+                        @case(App\Enums\TypeOptions::Text)
+
+                            {{-- <x-select
+                                :label="$option->name"
+                                wire:model="features.{{ $option->id }}"
+                                placeholder="Seleccione una opción"
+                                :async-data="[
+                                    'api' => route('api.features.index'),
+                                    'params' => [
+                                        'option_id' => $option->id
+                                    ]
+                                ]"
+                                option-label="value"
+                                option-value="id"
+                            /> --}}
+
+                            <x-select
+                                :label="$option->name"
+                                wire:model="features.{{ $option->id }}"
+                                placeholder="Seleccione una opción"
+                                
+                                :options="$option->features()->select('value as name', 'id')->get()"
+
+                                option-label="name"
+                                option-value="id"
+                            />
+                            
+                            @break
+                        @case(App\Enums\TypeOptions::Color)
+                            
+                            <x-color-picker
+                                :label="$option->name"
+                                wire:model="features.{{ $option->id }}"
+                                placeholder="Seleccione un color"
+                                :colors="$option->features->pluck('value')"
+                            />
+
+                            @break
+                        @default
+                            
+                    @endswitch
                 </div>
 
             @endforeach

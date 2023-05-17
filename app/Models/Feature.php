@@ -23,4 +23,10 @@ class Feature extends Model
             set: fn($value) => strtolower($value)
         );
     }
+
+    //Relacion inversa
+    public function option()
+    {
+        return $this->belongsTo(Option::class);
+    }
 }
