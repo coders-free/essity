@@ -39,10 +39,4 @@ class Line extends Model
     public function categories(){
         return $this->hasMany(Category::class);
     }
-
-    //Relacion muchos a muchos
-    public function options(){
-        return $this->belongsToMany(Option::class)
-            ->withTimestamps();
-    }
 }

@@ -33,10 +33,5 @@ class Option extends Model
     public function features(){
         return $this->hasMany(Feature::class);
     }
-
-    //Relacion muchos a muchos
-    public function lines(){
-        return $this->belongsToMany(Line::class)
-                    ->withTimestamps();
-    }
+    
 }

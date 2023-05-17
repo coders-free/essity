@@ -54,32 +54,5 @@ class OptionSeeder extends Seeder
 
         }
 
-        Line::where('name', 'tena')
-            ->first()
-            ->options()
-            ->attach([
-                1, 2, 3, 4
-            ]);
-
-        Line::where('name', 'leukoplast')
-            ->first()
-            ->options()
-            ->attach([
-                5
-            ]);
-
-        Line::where('name', 'actimove')
-            ->first()
-            ->options()
-            ->attach([
-                1, 5
-            ]);
-
-        Line::where('name', 'jobst')
-            ->first()
-            ->options()
-            ->attach([
-                1, 6, 7
-            ]);
     }
 }
