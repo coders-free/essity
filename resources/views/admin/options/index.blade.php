@@ -7,8 +7,8 @@
         'name' => 'Variantes',
     ]
 ]"
-:create="route('admin.variants.create')">
+:create="route('admin.options.create')">
 
-    @livewire('variant-table')
+    @livewire('option-table')
 
 </x-admin-layout>

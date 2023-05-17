@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
             LineSeeder::class,
             ClusterSeeder::class,
             GeographicAreaSeeder::class,
-            VariantSeeder::class,
+            OptionSeeder::class,
         ]);
         
     }

@@ -11,7 +11,8 @@ class Feature extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'value',
+        'option_id'
     ];
 
     //Mutadores y Accesores

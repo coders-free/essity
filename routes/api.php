@@ -45,13 +45,27 @@ Route::get('/products', function(Request $request){
 
 Route::get('/features', function(Request $request){
 
-    return \App\Models\Feature::select('id', 'name as text')
+    /* return \App\Models\Feature::select('id', 'name as text')
             ->when($request->variant_id, function($query, $variant_id){
                 return $query->where('variant_id', $variant_id);
             })
             ->when($request->term, function($query, $term){
                 return $query->where('name', 'like', '%' . $term . '%');
             })
+            ->get(); */
+
+    return \App\Models\Feature::select('id', 'value')
+            ->when($request->option_id, function($query, $option_id){
+                return $query->where('option_id', $option_id);
+            })
+            ->when($request->search, function($query, $search){
+                return $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->when(
+                $request->exists('selected'),
+                fn ($query) => $query->whereIn('id', $request->input('selected', [])),
+                fn ($query) => $query->limit(10)
+            )
             ->get();
 
 })->name('api.features.index');

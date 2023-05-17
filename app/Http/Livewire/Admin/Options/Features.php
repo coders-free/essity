@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Variants;
+namespace App\Http\Livewire\Admin\Options;
 
 use App\Models\Feature;
 use Livewire\Component;
@@ -8,11 +8,11 @@ use Livewire\Component;
 class Features extends Component
 {
 
-    public $variant, $features;
-    public $name;
+    public $option, $features;
+    public $value;
 
     protected $rules = [
-        'features.*.name' => 'required|string',
+        'features.*.value' => 'required|string',
     ];
 
     public function mount(){
@@ -20,20 +20,21 @@ class Features extends Component
     }
 
     public function getFeatures(){
-        $this->features = Feature::where('variant_id', $this->variant->id)->get();
+        $this->features = Feature::where('option_id', $this->option->id)->get();
+        /* $this->features = Feature::all(); */
     }
 
     public function store(){
 
         $this->validate([
-            'name' => 'required|string'
+            'value' => 'required|string'
         ]);
 
-        $this->variant->features()->create([
-            'name' => $this->name
+        $this->option->features()->create([
+            'value' => $this->value
         ]);
 
-        $this->reset('name');
+        $this->reset('value');
 
         $this->getFeatures();
     }

@@ -30,9 +30,9 @@
                     label="Selecione variantes"
                     placeholder="Seleccione variantes"
                     multiselect
-                    name="variants"
-                    value="{{old('variants', $line->variants->pluck('id'))}}"
-                    :options="$variants"
+                    name="options"
+                    value="{{old('options', $line->options->pluck('id'))}}"
+                    :options="$options"
                     option-label="name"
                     option-value="id"
                     

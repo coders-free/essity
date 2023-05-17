@@ -3,18 +3,19 @@
 namespace Database\Seeders;
 
 use App\Models\Line;
+use App\Models\Option;
 use App\Models\Variant;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class VariantSeeder extends Seeder
+class OptionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $variants = [
+        $options = [
             'talla' => [
                 's', 'm', 'l', 'xl', 'xxl'
             ],
@@ -38,15 +39,16 @@ class VariantSeeder extends Seeder
             ],
         ];
 
-        foreach ($variants as $variant => $features) {
+        foreach ($options as $option => $features) {
             
-            $variant = Variant::create([
-                'name' => $variant
+            $option = Option::create([
+                'name' => $option,
+                'type' => $option === 'color' ? 2 : 1
             ]);
 
             foreach ($features as $feature) {
-                $variant->features()->create([
-                    'name' => $feature
+                $option->features()->create([
+                    'value' => $feature
                 ]);
             }
 
@@ -54,28 +56,28 @@ class VariantSeeder extends Seeder
 
         Line::where('name', 'tena')
             ->first()
-            ->variants()
+            ->options()
             ->attach([
                 1, 2, 3, 4
             ]);
 
         Line::where('name', 'leukoplast')
             ->first()
-            ->variants()
+            ->options()
             ->attach([
                 5
             ]);
 
         Line::where('name', 'actimove')
             ->first()
-            ->variants()
+            ->options()
             ->attach([
                 1, 5
             ]);
 
         Line::where('name', 'jobst')
             ->first()
-            ->variants()
+            ->options()
             ->attach([
                 1, 6, 7
             ]);

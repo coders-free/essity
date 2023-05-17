@@ -1,18 +1,15 @@
 <x-admin-layout>
 
-    
-
     <div class="mb-8">
         <x-card title="Variante">
-            @livewire('admin.variants.edit', ['variant' => $variant])
+            @livewire('admin.options.edit', ['option' => $option])
         </x-card>
     </div>
 
     <div>
         <x-card title="Atributos">
-            @livewire('admin.variants.features', ['variant' => $variant])
+            @livewire('admin.options.features', ['option' => $option])
         </x-card>
     </div>
-
 
 </x-admin-layout>

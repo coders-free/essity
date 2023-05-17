@@ -2,30 +2,26 @@
 
 namespace App\Models;
 
+use App\Enums\TypeOptions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class Line extends Model
+class Option extends Model
 {
-
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'image_url',
+        'type',
+    ];
+
+    protected $casts = [
+        'type' => TypeOptions::class
     ];
 
     //Mutadores y Accesores
-
-    public function image(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => Storage::url($this->image_url),
-        );
-    }
-
     public function name(): Attribute
     {
         return Attribute::make(
@@ -34,15 +30,13 @@ class Line extends Model
         );
     }
 
-
-    //Relacion uno a muchos
-    public function categories(){
-        return $this->hasMany(Category::class);
+    public function features(){
+        return $this->hasMany(Feature::class);
     }
 
     //Relacion muchos a muchos
-    public function options(){
-        return $this->belongsToMany(Option::class)
-            ->withTimestamps();
+    public function lines(){
+        return $this->belongsToMany(Line::class)
+                    ->withTimestamps();
     }
 }

@@ -4,12 +4,12 @@ namespace App\Http\Livewire;
 
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\Variant;
+use App\Models\Option;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
-class VariantTable extends DataTableComponent
+class OptionTable extends DataTableComponent
 {
-    protected $model = Variant::class;
+    protected $model = Option::class;
 
     public function configure(): void
     {
@@ -31,7 +31,7 @@ class VariantTable extends DataTableComponent
 
             LinkColumn::make("Action")
                 ->title(fn() => "Editar")
-                ->location(fn($row) => route('admin.variants.edit', $row->id))
+                ->location(fn($row) => route('admin.options.edit', $row->id))
                 ->attributes(fn() => ['class' => 'btn btn-darkblue']),
         ];
     }

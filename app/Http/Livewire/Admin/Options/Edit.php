@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Variants;
+namespace App\Http\Livewire\Admin\Options;
 
 use Livewire\Component;
 use WireUi\Traits\Actions;
@@ -10,29 +10,26 @@ class Edit extends Component
 
     use Actions;
 
-    public $variant;
-
-    
+    public $option;
 
     public $attributeName;
 
     protected $rules = [
-        'variant.name' => 'required|string',
+        'option.name' => 'required|string',
     ];
     
 
     public function save(){
+
         $this->validate();
 
-        $this->variant->save();
+        $this->option->save();
 
         $this->notification()->success(
             $title = 'Variante actualizada con éxito',
             $description = 'La variante se actualizó con éxito.'
         );
     }
-
-    
 
     public function render()
     {

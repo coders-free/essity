@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Line;
-use App\Models\Variant;
+use App\Models\Option;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -68,9 +68,9 @@ class LineController extends Controller
     public function edit(Line $line)
     {
 
-        $variants = Variant::all();
+        $options = Option::all();
 
-        return view('admin.lines.edit', compact('line', 'variants'));
+        return view('admin.lines.edit', compact('line', 'options'));
     }
 
     /**
@@ -80,17 +80,17 @@ class LineController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|unique:lines,name,' . $line->id,
-            'variants' => 'required',
+            'options' => 'required',
             'image' => 'nullable|image'
         ]);
 
 
-        $variants = $request->variants;
+        $options = $request->options;
 
-        $variants = str_replace('[', '', $variants);
-        $variants = str_replace(']', '', $variants);
+        $options = str_replace('[', '', $options);
+        $options = str_replace(']', '', $options);
 
-        $variants = explode(',', $variants);
+        $options = explode(',', $options);
 
         if ($request->hasFile('image')) {
 
@@ -101,7 +101,7 @@ class LineController extends Controller
 
         $line->update($data);
 
-        $line->variants()->sync($variants);
+        $line->options()->sync($options);
 
         return redirect()->route('admin.lines.edit', $line)
             ->with('flash.alert', 'La línea se actualizó correctamente');

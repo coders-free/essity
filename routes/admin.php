@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\LineController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
@@ -31,9 +32,9 @@ Route::resource('users', UserController::class)
 Route::post('users/{user}/ban', [UserController::class, 'ban'])
     ->name('admin.users.ban');
 
-Route::resource('variants', VariantController::class)
+Route::resource('options', OptionController::class)
     ->except(['show'])
-    ->names('admin.variants');
+    ->names('admin.options');
 
 Route::resource('lines', LineController::class)
     ->except(['show'])

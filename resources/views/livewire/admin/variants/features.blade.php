@@ -5,22 +5,43 @@
             <ul class="space-y-2">
 
                 @foreach ($features as $index => $feature)
+
                     <li wire:key="feature-field-{{ $index }}">
 
                         <div class="flex">
-                            <x-jet-input class="w-full rounded-r-none" type="text"
-                                wire:model.defer="features.{{ $index }}.name" />
+                            
 
-                            <div class="flex border border-l-0 border-gray-300 rounded-r  divide-x divide-gray-300">
+                            @switch($option->type)
+                                @case(App\Enums\TypeOptions::Text)
+
+                                    {{-- <x-input 
+                                        class="w-full"
+                                        wire:model.defer="features.{{ $index }}.value"
+                                        placeholder="Ingrese el nombre de una sección" /> --}}
+
+                                    <x-jet-input class="w-full mr-2" type="text"
+                                        wire:model.defer="features.{{ $index }}.value" />
+                                    
+                                    @break
+                                @case(App\Enums\TypeOptions::Color)
+                                    
+                                    <x-color-picker 
+                                        class="w-full mr-2"
+                                        wire:model.defer="features.{{ $index }}.value"
+                                        placeholder="Select the car color" />
+
+                                    @break
+                                @default
+                                    
+                            @endswitch
+
+                            <div class="flex border border-gray-300 rounded-lg divide-x divide-gray-300">
 
                                 <div class="flex items-center px-2 cursor-pointer hover:text-red-500"
                                     x-on:click="destroyFeature({{ $feature->id }})">
                                     <i class="far fa-trash-alt"></i>
                                 </div>
 
-                                {{-- <div class="flex items-center px-2 cursor-move">
-                                    <i class="fas fa-bars"></i>
-                                </div> --}}
                             </div>
 
                         </div>
@@ -28,6 +49,7 @@
                         <x-input-error for="features.{{ $index }}.name" />
 
                     </li>
+
                 @endforeach
 
             </ul>
@@ -57,9 +79,33 @@
         <form wire:submit.prevent="store" class="bg-gray-100 rounded-lg shadow-lg p-6 mt-4 mb-6 hidden"
             :class="{ 'hidden': !open }">
 
-            <x-input label="Nuevo atributo"
+            {{-- <x-input label="Nuevo atributo"
                 wire:model.defer="name"
-                placeholder="Ingrese el nombre de una sección" />
+                placeholder="Ingrese el nombre de una sección" /> --}}
+
+
+            {{-- {{$option->name}} --}}
+
+
+            @switch($option->type)
+                @case(App\Enums\TypeOptions::Text)
+
+                    <x-input label="Nuevo atributo"
+                        wire:model.defer="value"
+                        placeholder="Ingrese el nombre de una sección" />
+                    
+                    @break
+                @case(App\Enums\TypeOptions::Color)
+                    
+                    <x-color-picker label="Select a Color" 
+                        wire:model.defer="value"
+                        placeholder="Select the car color" />
+
+                    @break
+                @default
+                    
+            @endswitch
+
 
             <div class="flex justify-end mt-4">
                 <x-button negative x-on:click="open = false">

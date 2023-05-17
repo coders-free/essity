@@ -1,6 +1,9 @@
 <x-admin-layout>
 
-    <form action="{{route('admin.products.update', $product)}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('admin.products.update', $product)}}" 
+        method="POST" 
+        enctype="multipart/form-data"
+        class="mb-12">
 
         @csrf
 
@@ -92,6 +95,13 @@
         </x-card>
 
     </form>
+
+    
+
+
+    @livewire('admin.products.variants', ['product' => $product], key($product->id))
+
+    
 
     @push('js')
         <script>
