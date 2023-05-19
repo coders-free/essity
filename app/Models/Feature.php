@@ -12,6 +12,7 @@ class Feature extends Model
 
     protected $fillable = [
         'value',
+        'description',
         'option_id'
     ];
 
@@ -28,5 +29,12 @@ class Feature extends Model
     public function option()
     {
         return $this->belongsTo(Option::class);
+    }
+
+    //Relacion muchos a muchos
+    public function variants()
+    {
+        return $this->belongsToMany(Variant::class)
+            ->withTimestamps();
     }
 }

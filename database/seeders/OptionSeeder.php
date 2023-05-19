@@ -17,25 +17,64 @@ class OptionSeeder extends Seeder
     {
         $options = [
             'talla' => [
-                's', 'm', 'l', 'xl', 'xxl'
+                /* 's', 'm', 'l', 'xl', 'xxl' */
+                [
+                    'value' => 's',
+                    'description' => 'small'
+                ],
+                [
+                    'value' => 'm',
+                    'description' => 'medium'
+                ],
+                [
+                    'value' => 'l',
+                    'description' => 'large'
+                ],
+                [
+                    'value' => 'xl',
+                    'description' => 'extra large'
+                ],
+                [
+                    'value' => 'xxl',
+                    'description' => 'extra extra large'
+                ],
             ],
             'color' => [
-                "#000000", '#ffffff', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff', '#c0c0c0', '#808080', '#800000', '#808000', '#008000', '#800080', '#008080', '#000080'
+                [
+                    'value' => '#000000',
+                    'description' => 'black'
+                ],
+                [
+                    'value' => '#ffffff',
+                    'description' => 'white'
+                ],
+                [
+                    'value' => '#ff0000',
+                    'description' => 'red'
+                ],
+                [
+                    'value' => '#00ff00',
+                    'description' => 'green'
+                ],
+                [
+                    'value' => '#0000ff',
+                    'description' => 'blue'
+                ],
+                [
+                    'value' => '#ffff00',
+                    'description' => 'yellow'
+                ]
             ],
-            'tamaño cadera' => [
-                'pequeño', 'mediano', 'grande', 'extra grande'
-            ],
-            'reembolsos/otc' => [
-                'reembolsos', 'otc'
-            ],
-            'medidas' => [
-                'pequeño', 'mediano', 'grande', 'extra grande'
-            ],
+
             'sexo' => [
-                'hombre', 'mujer'
-            ],
-            'otc/rx' => [
-                'otc', 'rx'
+                [
+                    'value' => 'hombre',
+                    'description' => 'hombre'
+                ],
+                [
+                    'value' => 'mujer',
+                    'description' => 'mujer'
+                ]
             ],
         ];
 
@@ -47,9 +86,7 @@ class OptionSeeder extends Seeder
             ]);
 
             foreach ($features as $feature) {
-                $option->features()->create([
-                    'value' => $feature
-                ]);
+                $option->features()->create($feature);
             }
 
         }

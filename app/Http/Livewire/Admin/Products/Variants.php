@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Products;
 
 use App\Models\Feature;
+use App\Models\Option;
 use App\Models\Variant;
 use Livewire\Component;
 use WireUi\Traits\Actions;
@@ -13,72 +14,148 @@ class Variants extends Component
     use Actions;
     
     public $product;
-
-    public $open = false;
+    public $openModal = false;
 
     public $options;
+    public $option_id;
 
-    public $code;
-    public $features = [];
+    public $fields = [
+        [
+            'id' => '',
+            'value' => '',
+            'description' => ''
+        ]
+    ];
 
-    public function mount(){
-        $this->options = $this->product->category->line->options;
+    public $new_feature = [];
 
-        foreach ($this->options as $option) {
-            $this->features[$option->id] = "";
+    public function mount()
+    {
+        $this->getOptions();
+    }
+
+    public function getFeaturesProperty(){
+        return Feature::where('option_id', $this->option_id)->get();
+    }
+
+    public function getOptions(){
+        $this->options = Option::get();
+        $this->option_id = $this->options->first()->id;
+    }
+
+    public function getFeatures($option_id)
+    {
+        return Feature::where('option_id', $option_id)->get();
+    }
+
+    public function addField(){
+        $this->fields[] = [
+            'id' => '',
+            'value' => ''
+        ];
+    }
+
+    public function removeField($index){
+        unset($this->fields[$index]);
+    }
+
+    public function field_change($index){
+
+        $feature = Feature::find($this->fields[$index]['id']);
+
+        if ($feature) {
+
+            $this->fields[$index]['value'] = $feature->value;
+            $this->fields[$index]['description'] = $feature->description;
+
+        }else{
+            $this->fields[$index]['value'] = '';
+            $this->fields[$index]['description'] = '';
         }
     }
 
-    public function save(){
-
+    public function addOption(){
+        
         $this->validate([
-            'code' => 'required|unique:variants,code|unique:products,code',
-            'features' => 'required|array',
+            'fields.*.id' => 'required',
+            'fields.*.value' => 'required',
+        ],[],[
+            'fields.*.id' => 'valor',
+            'fields.*.value' => 'característica',
+        ]);
+
+        $this->product->options()->attach($this->option_id, [
+            'features' => $this->fields
+        ]);
+
+        $this->reset(['fields', 'openModal']);
+
+        $this->option_id = $this->options->first()->id;
+
+    }
+
+    public function addFeature($option_id){
+            
+        $this->validate([
+            "new_feature.{$option_id}" => 'required|exists:features,id',
         ], [
-            'features.*.required' => 'Debe seleccionar al menos una opción',
+
+        ], [
+            "new_feature.{$option_id}" => 'valor',
         ]);
 
-        foreach ($this->features as $key => $value) {
-            if (is_string($value) && strpos($value, '#') === 0) {
+        
+        $feature = Feature::find($this->new_feature[$option_id]);
 
-
-                $feature = Feature::where('value', $value)
-                                        ->first();
-
-                $this->features[$key] = $feature->id;
-            }
-        }
-
-
-
-        $variant = $this->product->variants()->create([
-            'code' => $this->code,
+        //Actualizar los valores de la tabla pivote
+        $this->product->options()->updateExistingPivot($option_id, [
+            'features' => array_merge($this->product->options->find($option_id)->pivot->features, [
+                [
+                    'id' => $feature->id,
+                    'value' => $feature->value,
+                    'description' => $feature->description
+                ]
+            ])
         ]);
 
-        $variant->features()->sync($this->features);
-
-        foreach ($this->options as $option) {
-            $this->features[$option->id] = "";
-        }
-
-        $this->reset(['code', 'open']);
-
-        $this->notification()->success(
-            $title = 'Variante creada',
-            $description = 'La variante se creó con éxito.'
-        );
+        $this->new_feature[$option_id] = '';
 
     }
 
 
-    public function destroy(Variant $variant){
-        $variant->delete();
+    public function generate_variant(){
+        
+        $combinaciones = [];
+        $features = $this->product->options->pluck('pivot')->pluck('features');
 
-        $this->notification()->success(
-            $title = 'Variante eliminada',
-            $description = 'La variante se eliminó con éxito.'
-        );
+        $this->generarCombinaciones($features, 0, [], $combinaciones);
+
+        //Eliminar todas las variantes que tenga el producto
+        $this->product->variants()->delete();
+
+        foreach ($combinaciones as $combinacion) {
+            $variant = Variant::create([
+                'product_id' => $this->product->id,
+            ]);
+
+            $variant->features()->attach($combinacion);
+        }
+
     }
+
+    public function generarCombinaciones($colecciones, $index = 0, $combinacionActual = [], &$combinacionesFinales = [])
+    {
+        if ($index === count($colecciones)) {
+            $combinacionesFinales[] = $combinacionActual;
+            return;
+        }
+
+        foreach ($colecciones[$index] as $item) {
+            $nuevaCombinacion = array_merge($combinacionActual, [$item->id]); // Corrección aquí
+            $this->generarCombinaciones($colecciones, $index + 1, $nuevaCombinacion, $combinacionesFinales);
+        }
+    }
+
 
     public function render()
     {

@@ -37,7 +37,7 @@
         ], */
 
         [
-            'name' => 'Variantes',
+            'name' => 'Opciones',
             'icon' => 'fas fa-clone',
             'route' => route('admin.options.index'),
             'active' => request()->routeIs('admin.options.*'),

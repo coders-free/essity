@@ -89,6 +89,38 @@ Route::get('/dashboard', function () {
 
 /* Route::view('prueba', 'emails.welcome-message'); */
 
+
+
 Route::get('prueba', function () {
-    dd(auth()->user()->hasRole(['farmacia']));
+
+    function generarCombinaciones($colecciones, $index = 0, $combinacionActual = [], &$combinacionesFinales = [])
+    {
+        if ($index === count($colecciones)) {
+            $combinacionesFinales[] = $combinacionActual;
+            return;
+        }
+
+        foreach ($colecciones[$index] as $item) {
+            $nuevaCombinacion = array_merge($combinacionActual, [$item->id]); // Corrección aquí
+            generarCombinaciones($colecciones, $index + 1, $nuevaCombinacion, $combinacionesFinales);
+        }
+    }
+
+    $combinaciones = [];
+    $product = App\Models\Product::find(300);
+
+    $features = $product->options->pluck('pivot')->pluck('features');
+
+    generarCombinaciones($features, 0, [], $combinaciones);
+
+    return $combinaciones;
+    
+    
+
+    //Todas las combinaciones del atributo pivot features
+    $features = $product->options->pluck('pivot')->pluck('features');
+
+    return $features;
+
+
 });

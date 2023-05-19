@@ -41,4 +41,13 @@ class Product extends Model
     {
         return $this->hasMany(Variant::class);
     }
+
+    //Relacion muchos a muchos
+    public function options()
+    {
+        return $this->belongsToMany(Option::class)
+            ->using(OptionProduct::class)
+            ->withPivot('features')
+            ->withTimestamps();
+    }
 }

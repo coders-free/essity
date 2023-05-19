@@ -20,4 +20,5 @@ class Variant extends Model
         return $this->belongsToMany(Feature::class)
             ->withTimestamps();
     }
+
 }

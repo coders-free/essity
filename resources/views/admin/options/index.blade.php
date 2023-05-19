@@ -4,11 +4,10 @@
         'url' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Variantes',
+        'name' => 'Opciones',
     ]
-]"
-:create="route('admin.options.create')">
+]">
 
-    @livewire('option-table')
+    @livewire('admin.options')
 
 </x-admin-layout>
