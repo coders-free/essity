@@ -44,8 +44,13 @@ Route::resource('categories', CategoryController::class)
     ->except(['show'])
     ->names('admin.categories');
 
-Route::get('products/{product}/variants', [ProductController::class, 'variants'])
-    ->name('admin.products.variants');
+Route::get('products/{product}/variants/{variant}', [ProductController::class, 'variants'])
+    ->name('admin.products.variants')
+    ->scopeBindings();
+
+Route::put('products/{product}/variants/{variant}', [ProductController::class, 'variantsUpdate'])
+    ->name('admin.products.variants.update')
+    ->scopeBindings();
 
 Route::resource('products', ProductController::class)
     ->except(['show'])

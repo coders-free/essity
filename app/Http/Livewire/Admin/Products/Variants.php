@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Products;
 
 use App\Models\Feature;
 use App\Models\Option;
+use App\Models\Product;
 use App\Models\Variant;
 use Livewire\Component;
 use WireUi\Traits\Actions;
@@ -39,7 +40,7 @@ class Variants extends Component
     }
 
     public function getOptions(){
-        $this->options = Option::get();
+        $this->options = Option::latest('id')->get();
         $this->option_id = $this->options->first()->id;
     }
 
@@ -92,6 +93,14 @@ class Variants extends Component
 
         $this->option_id = $this->options->first()->id;
 
+        $this->generate_variant();
+
+    }
+
+    public function removeOption($option_id){
+        $this->product->options()->detach($option_id);
+
+        $this->generate_variant();
     }
 
     public function addFeature($option_id){
@@ -120,13 +129,29 @@ class Variants extends Component
 
         $this->new_feature[$option_id] = '';
 
+        $this->generate_variant();
+
     }
 
+    public function removeFeature($option_id, $feature_id){
+        //Actualizar los valores de la tabla pivote
+        $this->product->options()->updateExistingPivot($option_id, [
+            'features' => array_filter($this->product->options->find($option_id)->pivot->features, function($feature) use ($feature_id){
+                return $feature->id != $feature_id;
+            })
+        ]);
+
+        $this->generate_variant();
+
+    }
 
     public function generate_variant(){
         
         $combinaciones = [];
-        $features = $this->product->options->pluck('pivot')->pluck('features');
+
+        $product = Product::find($this->product->id);
+
+        $features = $product->options->pluck('pivot')->pluck('features');
 
         $this->generarCombinaciones($features, 0, [], $combinaciones);
 

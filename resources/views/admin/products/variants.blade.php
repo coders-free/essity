@@ -1,71 +1,73 @@
 <x-admin-layout>
 
-    @push('css')
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    @endpush
 
+    <form action="{{route('admin.products.variants.update', [$product, $variant])}}" 
+        method="POST" 
+        enctype="multipart/form-data">
 
-    <x-card title="Variantes">
+        @csrf
 
-        <form action="">
-            @foreach ($line->variants as $variant)
+        @method('PUT')
 
-                <div class="mb-4">
-                    <x-label>
-                        {{ Str::of($variant->name)->ucfirst() }}
-                    </x-label>
+        <x-input-error for="image" />
+        
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mb-6">
 
-                    <select class="{{Str::slug($variant->name)}}" 
-                        name="features[]" 
-                        multiple="multiple" 
-                        style="width: 100%">
-                    </select>
+            <div class="relative">
+                <figure>
+                    <img class="aspect-[16/9] w-full h-full object-cover object-center"
+                        src="{{$variant->image}}"
+                        id="imgPreview">
+                </figure>
+
+                <div class="absolute top-8 right-8">
+                    <label class="flex items-center px-4 py-2 rounded-lg bg-white cursor-pointer">
+                        <i class="fas fa-camera mr-2"></i> Actualizar imagen
+
+                        <input class="hidden" name="image" type="file" accept="image/*" onchange="previewImage(event, '#imgPreview')">
+                    </label>
                 </div>
 
-            @endforeach
+            </div>
+
+        </div>
+
+        <x-card>
+
+            <div class="mb-4">
+                <x-input label="Código" 
+                    placeholder="Ingrese un código para la variante"
+                    name="code"
+                    value="{{old('code', $variant->code)}}" />
+            </div>
+
 
             <div class="flex justify-end">
-                <x-button pink>
+                <x-button pink type="submit">
                     Guardar
                 </x-button>
             </div>
 
-        </form>
+        </x-card>
 
-    </x-card>
-
+    </form>
+    
     @push('js')
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script>
 
-        @foreach ($line->variants as $variant)
+            function previewImage(event, querySelector){
+                const input = event.target;
+                imgPreview = document.querySelector(querySelector);
+                // Si no hay archivos salimos de la función
+                if(!input.files.length) return
+                file = input.files[0];
+                objectURL = URL.createObjectURL(file);
+                imgPreview.src = objectURL;
+                
+            }
 
-            <script>
-                $('.' + '{{Str::slug($variant->name)}}').select2({
-                    placeholder: "Selecciona una opción",
-                    ajax: {
-                        url: "{{ route('api.features.index') }}",
-                        dataType: 'json',
-                        
-                        delay: 250,
-
-                        data: function(params) {
-                            return {
-                                term: params.term,
-                                variant_id: {{ $variant->id }}
-                            }
-                        },
-
-                        processResults: function (data, page) {
-                            return {
-                                results: data
-                            };
-                        },
-                    }
-                });
-            </script>
-
-        @endforeach
+        </script>
     @endpush
+
 
 </x-admin-layout>

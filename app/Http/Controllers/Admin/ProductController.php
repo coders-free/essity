@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Line;
+use App\Models\Variant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -131,16 +132,30 @@ class ProductController extends Controller
         //
     }
 
-    public function variants(Product $product){
+    public function variants(Product $product, Variant $variant){
+    
+        return view('admin.products.variants', compact('product', 'variant'));
 
-        $line = Line::whereHas('categories', function($query) use ($product){
-            return $query->where('id', $product->category_id);
-        })->with('variants')
-            ->first();
+    }
 
-        /* return $line; */
+    public function variantsUpdate(Request $request, Product $product, Variant $variant){
+        
+        $request->validate([
+            'image' => 'nullable|image',
+            'code' => 'nullable'
+        ]);
 
+        if ($request->hasFile('image')) {
+            $variant->image_url = Storage::put('variants', $request->image);
+        }
 
-        return view('admin.products.variants', compact('product', 'line'));
+        $variant->code = $request->code;
+
+        $variant->save();
+
+        session()->flash('flash.alert', 'La variante se actualizó correctamente');
+
+        return redirect()->route('admin.products.variants', [$product, $variant]);
+
     }
 }
