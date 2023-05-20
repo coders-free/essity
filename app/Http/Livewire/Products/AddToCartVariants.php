@@ -7,12 +7,36 @@ use Livewire\Component;
 class AddToCartVariants extends Component
 {
 
-    public $product, $variant;
+    public $product;
     public $qty = 0;
+
+    public $selectedFeatures = [];
 
     public function mount()
     {
-        $this->variant = $this->product->variants->first();
+    
+        foreach ($this->product->options as $option) {
+
+            $features = collect($option->pivot->features);
+            $this->selectedFeatures[$option->id] = $features->first()->id;
+
+        }
+    }
+
+
+    public function getVariantProperty()
+    {
+
+        $variant = $this->product->variants->filter(function ($variant) {
+
+            /* return array_values($variant->features->pluck('id')->sort()) == collect($this->selectedFeatures)->sort(); */
+
+            return !array_diff($variant->features->pluck('id')->toArray(), $this->selectedFeatures);
+
+
+        })->first();
+
+        return $variant;
     }
 
     public function render()

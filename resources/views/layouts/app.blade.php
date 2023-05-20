@@ -72,7 +72,7 @@
 
     <div class="bg-darkblue-500">
 
-        <x-container>
+        <x-container class="px-4">
             <nav class="flex justify-end py-1">
                 <ul class="text-white flex space-x-6 text-sm">
                     <li>
@@ -98,7 +98,7 @@
 
     </div>
 
-    <header class="bg-white shadow">
+    {{-- <header class="bg-white shadow">
         <x-container class="px-4 py-4 flex items-center justify-between">
             <a href="/">
                 <img src="{{ asset('img/logo.png') }}" alt="">
@@ -140,7 +140,9 @@
 
             @endif
         </x-container>
-    </header>
+    </header> --}}
+
+    @include('layouts.includes.navigation')
 
 
     <main>

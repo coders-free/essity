@@ -29,7 +29,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="card">
-                    <a class="aspect-square flex flex-col justify-center items-center">
+                    <a class="aspect-square flex flex-col justify-center items-center" href="{{route('lines.index')}}">
                         
                         <img src="{{asset('img/home/frame/1.png')}}" class="mb-8" alt="">
 
@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="card">
-                    <a class="aspect-square flex flex-col justify-center items-center">
+                    <a class="aspect-square flex flex-col justify-center items-center" href="{{route('webinars.index')}}">
                         
                         <img src="{{asset('img/home/frame/4.png')}}" class="mb-8" alt="">
 

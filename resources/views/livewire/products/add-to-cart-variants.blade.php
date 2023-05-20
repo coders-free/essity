@@ -5,7 +5,9 @@
 
             <div class="col-span-2">
                 <figure>
-                    <img src="{{ $product->image }}" alt="">
+                    <img src="{{ $this->variant->image }}" 
+                        class="aspect-square object-cover object-center" 
+                        alt="">
                 </figure>
             </div>
 
@@ -14,16 +16,48 @@
                     {{ $product->name }}
                 </h1>
                 
-                <p class="py-2">CN: {{ $product->code }}</p>
+                <p class="py-2">CN: {{ $this->variant->code ?? $product->code }}</p>
 
                 <hr class="mb-4">
 
                 <div class="mb-4 flex">
                     @foreach ($product->options as $option)
                         <div class="mr-4">
-                            <p class="font-semibold text-lg">
+                            <p class="font-semibold text-lg mb-2">
                                 {{ $option->name }}
                             </p>
+
+                            <ul class="flex items-center space-x-4">
+                                @foreach ($option->pivot->features as $feature)
+                                    <li>
+                                        
+                                        @switch($option->type)
+                                            @case(App\Enums\TypeOptions::Text)
+                                                
+                                                <button class="w-20 h-8 font-semibold uppercase text-sm rounded-lg {{$selectedFeatures[$option->id] == $feature->id ? 'bg-magenta-500 text-white' : 'border border-gray-200 text-gray-700'}}"
+                                                    wire:click="$set('selectedFeatures.{{$option->id}}', {{$feature->id}})">
+                                                    {{ $feature->value }}
+                                                </button>
+
+                                                @break
+                                            @case(App\Enums\TypeOptions::Color)
+                                                
+                                                <div class="p-0.5 border-4 rounded-lg -mt-1.5 {{$selectedFeatures[$option->id] == $feature->id ? 'border-magenta-500' : 'border-transparent'}}">
+                                                    <button class="w-20 h-8 rounded-lg border border-gray-200"
+                                                        style="background-color: {{$feature->value}}; color: {{$feature->value}}"
+                                                        wire:click="$set('selectedFeatures.{{$option->id}}', {{$feature->id}})">
+                                                        a
+                                                    </button>
+                                                </div>
+
+                                                @break
+                                            @default
+                                                
+                                        @endswitch
+
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endforeach
                 </div>
