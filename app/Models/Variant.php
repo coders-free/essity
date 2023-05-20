@@ -24,6 +24,12 @@ class Variant extends Model
         );
     }
 
+    //Relacion inversa
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     //Relacion muchos a muchos
     public function features()
     {

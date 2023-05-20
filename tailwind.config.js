@@ -18,6 +18,7 @@ module.exports = {
 
     theme: {
         extend: {
+
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
@@ -84,5 +85,6 @@ module.exports = {
         require('@tailwindcss/forms'), 
         require('@tailwindcss/typography'),
         require('tailwind-scrollbar'),
+        require('@tailwindcss/line-clamp'),
     ],
 };

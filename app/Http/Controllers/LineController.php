@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Line;
+use App\Models\Option;
 use Illuminate\Http\Request;
 
 class LineController extends Controller
@@ -20,6 +21,9 @@ class LineController extends Controller
 
     public function show(Line $line)
     {
+        $lines = Line::all();
+        
+        return view('lines.show', compact('line', 'lines'));
 
         /* $line->load(['categories', 'categories.products']); */
 

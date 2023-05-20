@@ -18,6 +18,16 @@
 
                 <hr class="mb-4">
 
+                <div class="mb-4 flex">
+                    @foreach ($product->options as $option)
+                        <div class="mr-4">
+                            <p class="font-semibold text-lg">
+                                {{ $option->name }}
+                            </p>
+                        </div>
+                    @endforeach
+                </div>
+
                 <div class="flex justify-end items-center mb-4" x-data="{
                     qty: @entangle('qty').defer
                 }">

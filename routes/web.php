@@ -6,6 +6,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WebinarController;
 use App\Http\Controllers\WelcomeController;
+use App\Models\Category;
+use App\Models\Option;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -93,34 +95,38 @@ Route::get('/dashboard', function () {
 
 Route::get('prueba', function () {
 
-    function generarCombinaciones($colecciones, $index = 0, $combinacionActual = [], &$combinacionesFinales = [])
-    {
-        if ($index === count($colecciones)) {
-            $combinacionesFinales[] = $combinacionActual;
-            return;
-        }
+    $selected_features = [1];
 
-        foreach ($colecciones[$index] as $item) {
-            $nuevaCombinacion = array_merge($combinacionActual, [$item->id]); // Corrección aquí
-            generarCombinaciones($colecciones, $index + 1, $nuevaCombinacion, $combinacionesFinales);
-        }
-    }
+    $categories = Category::where('line_id',4 )
+                        ->when([], function($query){
+                            $query->whereIn('id', []);
+                        })->when($selected_features, function($query, $selected_features){
+                            
+                            $query->whereHas('products.variants.features', function($query) use ($selected_features){
+                                $query->whereIn('features.id', $selected_features);
+                            })->with(['products' => function($query) use ($selected_features){
+                                $query->whereHas('variants.features', function($query) use ($selected_features){
+                                        $query->whereIn('features.id', $selected_features);
+                                    });
+                            }]);
+                            
+                            
+                            /* ->with('products.variants.features', function($query) use ($selected_features){
 
-    $combinaciones = [];
-    $product = App\Models\Product::find(300);
+                                $query->whereIn('features.id', $selected_features);
 
-    $features = $product->options->pluck('pivot')->pluck('features');
+                            }) */
+                            
+                            
+                            /* ->with(['products', function($query) use ($selected_features){
+                                $query->whereHas('variants.features', function($query) use ($selected_features){
+                                    $query->whereIn('features.id', $selected_features);
+                                });
+                            }]); */
 
-    generarCombinaciones($features, 0, [], $combinaciones);
+                        })
+                        ->get();
 
-    return $combinaciones;
-    
-    
-
-    //Todas las combinaciones del atributo pivot features
-    $features = $product->options->pluck('pivot')->pluck('features');
-
-    return $features;
-
+    return $categories;
 
 });
