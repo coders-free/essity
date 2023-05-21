@@ -8,7 +8,7 @@
                         <i class="fa-solid fa-magnifying-glass text-magenta-500 text-lg"></i>
                     </button>
 
-                    <a href="{{route('cart.index')}}" class="mx-4">
+                    <a href="{{route('orders.cart.index')}}" class="mx-4">
                         <i class="fa-solid fa-cart-shopping text-magenta-500 text-lg"></i>
                     </a>
                 </div>
@@ -17,9 +17,28 @@
         </x-input>
     </div>
 
-    <div class="flex">
+    <div class="lg:flex">
 
-        <div class="flex-1">
+        <div class="mb-8 lg:flex-shrink-0 lg:ml-8 lg:w-80 lg:order-2">
+            <x-card>
+
+                <h2 class="text-darkblue-500 font-semibold text-lg">
+                    Descuentos acumulados
+                </h2>
+
+                <p class="my-2 text-sm">
+                    Actualmente aún no tiene ningún descuento basado en los articulos en su carro
+                </p>
+
+                <button class="text-magenta-500 font-semibold flex items-center text-sm">
+                    <i class="fa-solid fa-angle-right mr-2"></i>
+                    Ver todos los descuentos
+                </button>
+
+            </x-card>
+        </div>
+
+        <div class="lg:flex-1 lg:order-1">
             <x-card>
                 <h1 class="text-3xl text-darkblue mb-4">Haz tu pedido <span class="uppercase">{{ $line->name }}</span></h1>
 
@@ -30,8 +49,8 @@
                         @foreach ($lines as $item)
 
                             <li class="mr-2">
-                                <a href="{{route('lines.show', $item)}}"
-                                    class="inline-block p-4 border-b-2 rounded-t-lg active uppercase {{ request()->url() == route('lines.show', [$item]) ? 'text-magenta-500 border-magenta-500' : 'border-transparent hover:text-gray-600 hover:border-gray-300'}}">
+                                <a href="{{route('orders.lines.show', $item)}}"
+                                    class="inline-block p-4 border-b-2 rounded-t-lg active uppercase {{ request()->url() == route('orders.lines.show', [$item]) ? 'text-magenta-500 border-magenta-500' : 'border-transparent hover:text-gray-600 hover:border-gray-300'}}">
                                     {{ $item->name }}
                                 </a>
                             </li>
@@ -171,7 +190,7 @@
                                             </h1>
                                         </div>
 
-                                        <a href="{{route('products.show', $product)}}" class="btn btn-magenta block text-center w-full">
+                                        <a href="{{route('orders.products.show', $product)}}" class="btn btn-magenta block text-center w-full">
                                             VER PRODUCTO
                                         </a>
 
@@ -194,25 +213,6 @@
             </x-card>
 
             {{-- @dump($this->filtered_categories) --}}
-        </div>
-
-        <div class="flex-shrink-0 ml-8 w-80">
-            <x-card>
-
-                <h2 class="text-darkblue-500 font-semibold text-lg">
-                    Descuentos acumulados
-                </h2>
-
-                <p class="my-2 text-sm">
-                    Actualmente aún no tiene ningún descuento basado en los articulos en su carro
-                </p>
-
-                <button class="text-magenta-500 font-semibold flex items-center text-sm">
-                    <i class="fa-solid fa-angle-right mr-2"></i>
-                    Ver todos los descuentos
-                </button>
-
-            </x-card>
         </div>
 
     </div>

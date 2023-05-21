@@ -17,10 +17,10 @@ class Feature extends Model
     ];
 
     //Mutadores y Accesores
-    public function name(): Attribute
+    public function description(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => strtoupper($value),
+            get: fn($value) => ucfirst($value),
             set: fn($value) => strtolower($value)
         );
     }

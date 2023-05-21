@@ -76,6 +76,21 @@ class OptionSeeder extends Seeder
                     'description' => 'mujer'
                 ]
             ],
+
+            'cintura' => [
+                [
+                    'value' => 'alta',
+                    'description' => 'alta'
+                ],
+                [
+                    'value' => 'media',
+                    'description' => 'media'
+                ],
+                [
+                    'value' => 'baja',
+                    'description' => 'baja'
+                ]
+            ]
         ];
 
         foreach ($options as $option => $features) {

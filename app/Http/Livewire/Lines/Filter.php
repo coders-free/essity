@@ -29,17 +29,39 @@ class Filter extends Component
     }
 
     public function getOptionsProperty(){
-        return Option::whereHas('products.category.line', function($query){
-            
-            $query->where('id', $this->line->id);
+
+        return Option::whereHas('products', function($query){
+
+            $query->whereHas('category.line', function($query){
+                $query->where('id', $this->line->id);
+            })->whereDoesntHave('variants', function ($query){
+
+                $query->where(function($query){
+                    $query->whereNull('code')
+                        ->orWhereNull('image_url');
+                });
+
+            });
 
         })->with(['features' => function($query) {
     
-            $query->whereHas('variants.product.category.line', function($query) {
-                $query->where('id', $this->line->id);
+            $query->whereHas('variants.product', function($query) {
+                
+                $query->whereHas('category.line', function($query){
+                    $query->where('id', $this->line->id);
+                })->whereDoesntHave('variants', function ($query){
+    
+                    $query->where(function($query){
+                        $query->whereNull('code')
+                            ->orWhereNull('image_url');
+                    });
+    
+                });
+
             });
     
         }])->get();
+
     }
 
     public function getFilteredCategoriesProperty(){
@@ -68,6 +90,13 @@ class Filter extends Component
                                 });
                             })->when($this->search, function($query){
                                 $query->where('name', 'like', '%'.$this->search.'%');
+                            })->whereDoesntHave('variants', function ($query){
+
+                                $query->where(function($query){
+                                    $query->whereNull('code')
+                                        ->orWhereNull('image_url');
+                                });
+
                             });
 
                         }])

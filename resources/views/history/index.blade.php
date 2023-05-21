@@ -8,7 +8,7 @@
         <div class="mb-24">
             <h2 class="text-3xl mb-4">Filtrar pedidos</h1>
 
-            <form action="{{route('products.history')}}">
+            <form action="{{route('history')}}">
 
                 <div class="grid grid-cols-3 gap-6">
 
@@ -55,7 +55,7 @@
                         FILTRAR PEDIDOS
                     </button>
 
-                    <a href="{{route('products.history')}}" class="btn btn-outline-magenta">
+                    <a href="{{route('history')}}" class="btn btn-outline-magenta">
                         BORRAR FILTROS
                     </a>
                 </div>

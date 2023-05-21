@@ -15,21 +15,6 @@ class CartController extends Controller
     public function index()
     {
 
-        /* Cart::instance('shopping');
-
-        $cart = Cart::content()->groupBy(function($item){
-            $line = Line::find($item->options->line_id);
-            return $line->name;
-
-        })->map(function($item){
-            return $item->groupBy(function($item){
-                $category = Category::find($item->options->category_id);
-                return $category->name;
-            });
-        });
-
-        return $cart; */
-
         return view('cart.index');
     }
 
@@ -74,6 +59,6 @@ class CartController extends Controller
 
         Mail::to(auth()->user()->email)->send(new \App\Mail\OrderShipped($order));
 
-        return redirect()->route('products.history');
+        return redirect()->route('orders.thanks.index', $order);
     }
 }

@@ -31,6 +31,7 @@ class AddToCart extends Component
                 'code' => $this->product->code,
                 'line_id' => $this->product->category->line_id,
                 'category_id' => $this->product->category_id,
+                'features' => []
             ],
             'tax' => 18,
         ];
@@ -46,7 +47,7 @@ class AddToCart extends Component
 
         Cart::store(auth()->id());
 
-        return redirect()->route('cart.index');
+        return redirect()->route('orders.cart.index');
 
     }
 

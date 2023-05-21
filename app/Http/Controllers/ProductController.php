@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Line;
-use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -34,21 +33,12 @@ class ProductController extends Controller
         return view('products.index', compact('lines', 'line', 'categories', 'category'));
     }
 
-    public function show(Product $product){
+    public function show($product_id){
+
+        $product = Product::publishedVariants()
+                    ->findOrFail($product_id);
+
         return view('products.show', compact('product'));
     }
 
-    public function history(){
-
-        $orders = Order::where('user_id', auth()->id())
-                    ->filter([
-                        'order_id' => request('order_id'),
-                        'status' => request('status'),
-                        'from_date' => request('from_date'),
-                        'to_date' => request('to_date'),
-                    ])
-                    ->get();
-
-        return view('products.history', compact('orders'));
-    }
 }

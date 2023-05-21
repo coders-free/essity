@@ -7,7 +7,7 @@
 
             @foreach ($lines as $line)
             
-                <a href="{{route('lines.show', $line)}}" class="bg-white rounded-lg shadow py-12 px-6">
+                <a href="{{route('orders.lines.show', $line)}}" class="bg-white rounded-lg shadow py-12 px-6">
                     <div class="flex justify-center">
                         <img class="h-[300px]" src="{{$line->image}}" alt="">
                     </div>

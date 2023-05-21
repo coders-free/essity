@@ -3,7 +3,10 @@
 use App\Http\Controllers\LineController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SampleController;
+use App\Http\Controllers\ThankController;
 use App\Http\Controllers\WebinarController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\Category;
@@ -29,33 +32,32 @@ Route::middleware(['auth'])->group(function () {
             ->name('welcome');
 
         Route::get('/lineas', [LineController::class, 'index'])
-            ->name('lines.index');
+            ->name('orders.lines.index');
 
         Route::get('/lineas/{line}', [LineController::class, 'show'])
-            ->name('lines.show');
-
-        /* Route::get('/lineas/{line?}/{category?}', [ProductController::class, 'index'])
-            ->name('lines.index')
-            ->scopeBindings(); */
-
-        /* Route::get('/linea/{line?}/{category?}', [LineController::class, 'show'])
-            ->name('products.index')
-            ->scopeBindings(); */
-
-        Route::get('products/history', [ProductController::class, 'history'])
-            ->name('products.history');
+            ->name('orders.lines.show');
 
         Route::get('/products/{product}', [ProductController::class, 'show'])
-            ->name('products.show');
+            ->name('orders.products.show');
 
         Route::get('cart', [CartController::class, 'index'])
-            ->name('cart.index');
+            ->name('orders.cart.index');
 
         Route::get('cart/checkout', [CartController::class, 'checkout'])
-            ->name('cart.checkout');
+            ->name('orders.cart.checkout');
 
         Route::post('cart/checkout', [CartController::class, 'store'])
-            ->name('cart.store');
+            ->name('orders.cart.store');
+
+        Route::get('gracias/{order}', [ThankController::class, 'index'])
+            ->name('orders.thanks.index');
+
+        Route::get('history', [HistoryController::class, 'index'])
+            ->name('history');
+
+
+        Route::get('samples', [SampleController::class, 'index'])
+            ->name('samples.index');
 
         Route::get('webinars', [WebinarController::class, 'index'])
             ->name('webinars.index');
@@ -95,38 +97,8 @@ Route::get('/dashboard', function () {
 
 Route::get('prueba', function () {
 
-    $selected_features = [1];
-
-    $categories = Category::where('line_id',4 )
-                        ->when([], function($query){
-                            $query->whereIn('id', []);
-                        })->when($selected_features, function($query, $selected_features){
-                            
-                            $query->whereHas('products.variants.features', function($query) use ($selected_features){
-                                $query->whereIn('features.id', $selected_features);
-                            })->with(['products' => function($query) use ($selected_features){
-                                $query->whereHas('variants.features', function($query) use ($selected_features){
-                                        $query->whereIn('features.id', $selected_features);
-                                    });
-                            }]);
-                            
-                            
-                            /* ->with('products.variants.features', function($query) use ($selected_features){
-
-                                $query->whereIn('features.id', $selected_features);
-
-                            }) */
-                            
-                            
-                            /* ->with(['products', function($query) use ($selected_features){
-                                $query->whereHas('variants.features', function($query) use ($selected_features){
-                                    $query->whereIn('features.id', $selected_features);
-                                });
-                            }]); */
-
-                        })
-                        ->get();
-
-    return $categories;
+    $product = App\Models\Product::find(145);
+    
+    return $product->options;
 
 });

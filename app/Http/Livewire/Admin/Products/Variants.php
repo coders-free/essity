@@ -40,7 +40,7 @@ class Variants extends Component
     }
 
     public function getOptions(){
-        $this->options = Option::latest('id')->get();
+        $this->options = Option::get();
         $this->option_id = $this->options->first()->id;
     }
 

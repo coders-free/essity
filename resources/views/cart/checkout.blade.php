@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
 
-                <form action="{{route('cart.store')}}" method="POST">
+                <form action="{{route('orders.cart.store')}}" method="POST">
 
                     @csrf
 
@@ -113,7 +113,7 @@
                     </div>
 
                     <div class="flex justify-between">
-                        <a href="{{route('cart.index')}}" class="btn btn-outline-magenta">
+                        <a href="{{route('orders.cart.index')}}" class="btn btn-outline-magenta">
                             Volver
                         </a>
 

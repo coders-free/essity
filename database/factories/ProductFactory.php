@@ -20,10 +20,11 @@ class ProductFactory extends Factory
         return [
             'code' => $this->faker->numberBetween(100000000, 999999999),
             'name' => $this->faker->name(),
-            'details' => $this->faker->text(),
+            'details' => $this->faker->text(700),
             'image_url' => 'products/' . $this->faker->image('public/storage/products', 640, 480, null, false),
             'category_id' => Category::all()->random()->id,
             'free_sample' => $this->faker->boolean(20),
+            'plv_material' => $this->faker->boolean(20),
         ];
     }
 }

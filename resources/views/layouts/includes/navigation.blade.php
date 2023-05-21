@@ -2,20 +2,20 @@
     $links = [
         [
             'name' => 'Pedir productos',
-            'route' => route('lines.index'),
-            'active' => request()->routeIs('lines.*'),
+            'route' => route('orders.lines.index'),
+            'active' => request()->routeIs('orders.*'),
         ],
 
         [
             'name' => 'Historial de productos',
-            'route' => route('products.history'),
-            'active' => request()->routeIs('products.*'),
+            'route' => route('history'),
+            'active' => request()->routeIs('history'),
         ],
 
         [
             'name' => 'Pedir muestras y material PLV',
-            'route' => "",
-            'active' => false,
+            'route' => route('samples.index'),
+            'active' => request()->routeIs('samples.*'),
         ],
 
         [
@@ -59,8 +59,8 @@
                     <li>
                         <a href="{{ $link['route'] }}"
                            @class([
-                            'text-sm block py-2 pl-3 pr-4 text-white bg-magenta-500 rounded lg:bg-transparent lg:text-blue-700 lg:p-0 lg:font-semibold' => $link['active'], 
-                            'text-sm block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 lg:font-semibold' => !$link['active'],]) >
+                            'text-sm block py-2 pl-3 pr-4 text-white bg-magenta-500 rounded lg:bg-transparent lg:text-magenta-500 lg:p-0 lg:font-semibold' => $link['active'], 
+                            'text-sm block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-darkblue-400 lg:p-0 lg:font-semibold' => !$link['active'],]) >
                             {{ $link['name'] }}
                         </a>
                     </li>

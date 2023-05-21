@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <x-container class="px-4 pt-16 pb-56">
+    <x-container class="px-4 pt-16 pb-24">
         @if ($product->variants->count())
             @livewire('products.add-to-cart-variants', ['product' => $product])
         @else

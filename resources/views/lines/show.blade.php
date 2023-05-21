@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <x-container class="py-12">
+    <x-container class="px-4 py-12">
 
 
         @livewire('lines.filter', [

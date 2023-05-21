@@ -102,7 +102,7 @@
 
     <div class="flex">
 
-        <a href="{{route('lines.index')}}" class="btn btn-outline-magenta">
+        <a href="{{route('orders.lines.index')}}" class="btn btn-outline-magenta">
             VOLVER
         </a>
 
@@ -115,7 +115,7 @@
                 CONFIRMAR PEDIDO
             </button> --}}
 
-            <a href="{{route('cart.checkout')}}" class="btn btn-magenta ml-2">
+            <a href="{{route('orders.cart.checkout')}}" class="btn btn-magenta ml-2">
                 CONFIRMAR PEDIDO
             </a>
 

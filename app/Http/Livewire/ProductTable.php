@@ -37,7 +37,9 @@ class ProductTable extends DataTableComponent
                 ->searchable()
                 ->sortable(),
 
-            BooleanColumn::make('Muestra gratis', 'free_sample'),
+            BooleanColumn::make('Muestras', 'free_sample'),
+            
+            BooleanColumn::make('Material PLV', 'plv_material'),
 
             LinkColumn::make("Action")
                 ->title(fn() => "Editar")

@@ -29,7 +29,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="card">
-                    <a class="aspect-square flex flex-col justify-center items-center" href="{{route('lines.index')}}">
+                    <a class="aspect-square flex flex-col justify-center items-center" href="{{route('orders.lines.index')}}">
                         
                         <img src="{{asset('img/home/frame/1.png')}}" class="mb-8" alt="">
 
@@ -109,7 +109,7 @@
                         Historial de pedidos
                     </h2>
 
-                    <a class="text-magenta-500" href="{{route('products.history')}}">Ver todo el historial</a>
+                    <a class="text-magenta-500" href="{{route('history')}}">Ver todo el historial</a>
                 </div>
 
                 <div class="overflow-auto bg-white shadow">
@@ -154,7 +154,7 @@
                                     <td class="py-2 px-4">
                                         <div class="flex justify-center">
                                         
-                                            <a href="{{route('products.history', [
+                                            <a href="{{route('history', [
                                                 'order' => $order->id
                                             ])}}">
                                                 <img src="{{asset('img/icons/Visibility.svg')}}" alt="">

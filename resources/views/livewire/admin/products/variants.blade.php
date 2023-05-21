@@ -109,9 +109,6 @@
 
         <ul class="divide-y -my-4">
 
-                
-            
-
             @forelse ($product->variants()->get() as $variant)
             
                 <li class="flex items-center py-4">
@@ -145,8 +142,6 @@
         </ul>
 
     </x-card>
-
-
 
     <x-modal.card blur
         wire:model.defer="openModal"

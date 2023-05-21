@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Products;
 
+use App\Models\Feature;
+use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 
 class AddToCartVariants extends Component
@@ -23,20 +26,47 @@ class AddToCartVariants extends Component
         }
     }
 
-
     public function getVariantProperty()
     {
 
         $variant = $this->product->variants->filter(function ($variant) {
 
-            /* return array_values($variant->features->pluck('id')->sort()) == collect($this->selectedFeatures)->sort(); */
-
             return !array_diff($variant->features->pluck('id')->toArray(), $this->selectedFeatures);
-
 
         })->first();
 
         return $variant;
+    }
+
+    public function getItemProperty(){
+
+        return [
+            'id' => $this->product->id,
+            'name' => $this->product->name, 
+            'qty' => $this->qty, 
+            'price' => 0,
+            'options' => [
+                'code' => $this->variant->code,
+                'line_id' => $this->product->category->line_id,
+                'category_id' => $this->product->category_id,
+                'features' => Feature::whereIn('id', $this->selectedFeatures)
+                                    ->pluck('description', 'id')
+                                    ->toArray()
+            ],
+            'tax' => 18,
+        ];
+    }
+
+    public function add_to_cart()
+    {
+        
+        Cart::instance('shopping');
+
+        Cart::add($this->item)
+            ->associate(Product::class);
+
+        Cart::store(auth()->id());
+
     }
 
     public function render()

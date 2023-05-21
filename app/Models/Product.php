@@ -17,13 +17,15 @@ class Product extends Model
         'details',
         'image_url',
         'category_id',
-        'free_sample'
+        'free_sample',
+        'plv_material'
     ];
 
     protected $casts = [
         'free_sample' => 'boolean',
     ];
 
+    //Mutators
     public function image(): Attribute
     {
         return Attribute::make(
@@ -36,10 +38,29 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+
+    //Query scopes
+    public function scopePublishedVariants($query)
+    {
+        $query->whereDoesntHave('variants', function ($query){
+
+            $query->where(function($query){
+                $query->whereNull('code')
+                    ->orWhereNull('image_url');
+            });
+
+        });
+    }
+
     //Relacion uno a muchos
     public function variants()
     {
         return $this->hasMany(Variant::class);
+    }
+
+    public function specifications()
+    {
+        return $this->hasMany(Specification::class);
     }
 
     //Relacion muchos a muchos
@@ -48,6 +69,7 @@ class Product extends Model
         return $this->belongsToMany(Option::class)
             ->using(OptionProduct::class)
             ->withPivot('features')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->orderByPivot('created_at', 'asc');;
     }
 }

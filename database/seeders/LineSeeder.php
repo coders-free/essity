@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Line;
 use App\Models\Product;
+use App\Models\Specification;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -33,7 +34,11 @@ class LineSeeder extends Seeder
             ])->each(function ($category) {
                 Product::factory(12)->create([
                     'category_id' => $category->id
-                ]);
+                ])->each(function($product){
+                    Specification::factory(3)->create([
+                        'product_id' => $product->id
+                    ]);
+                });
             });
         }
     
