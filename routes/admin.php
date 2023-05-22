@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ClusterController;
+use App\Http\Controllers\Admin\DigitalMaterialController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\LineController;
 use App\Http\Controllers\Admin\MessageController;
@@ -71,6 +72,9 @@ Route::resource('orders', OrderController::class)
 Route::resource('samples', SampleController::class)
     ->parameters(['samples' => 'orderSample'])
     ->names('admin.samples');
+
+Route::get('digital-materials', [DigitalMaterialController::class, 'index'])
+    ->name('admin.digital-materials');
 
 Route::resource('webinars', WebinarController::class)
     ->names('admin.webinars');

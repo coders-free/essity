@@ -15,10 +15,14 @@
                 {{ $order->user->name }}
             </p>
 
-            <p>
-                <b>Cooperativa:</b>
-                {{ $order->cooperative->name }}
-            </p>
+            @if ($order->cooperative_id)
+            
+                <p>
+                    <b>Cooperativa:</b>
+                    {{ $order->cooperative->name }}
+                </p>
+
+            @endif
 
             <p>
                 <b>Numero NIF:</b>

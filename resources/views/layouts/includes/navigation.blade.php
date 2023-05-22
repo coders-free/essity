@@ -4,6 +4,26 @@
             'name' => 'Pedir productos',
             'route' => route('orders.lines.index'),
             'active' => request()->routeIs('orders.*'),
+            'submenu' => [
+                [
+                    'name' => 'Tena',
+                    'route' => route('orders.lines.show', 1),
+                ],
+                [
+                    'name' => 'Leukoplast',
+                    'route' => route('orders.lines.show', 2),
+                ],
+
+                [
+                    'name' => 'Actimove',
+                    'route' => route('orders.lines.show', 3),
+                ],
+
+                [
+                    'name' => 'Jobst',
+                    'route' => route('orders.lines.show', 4),
+                ],
+            ]
         ],
 
         [
@@ -56,14 +76,63 @@
 
                 @foreach ($links as $link)
 
-                    <li>
-                        <a href="{{ $link['route'] }}"
-                           @class([
-                            'text-sm block py-2 pl-3 pr-4 text-white bg-magenta-500 rounded lg:bg-transparent lg:text-magenta-500 lg:p-0 lg:font-semibold' => $link['active'], 
-                            'text-sm block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-darkblue-400 lg:p-0 lg:font-semibold' => !$link['active'],]) >
-                            {{ $link['name'] }}
-                        </a>
-                    </li>
+
+                    @isset($link['submenu'])
+                        {{-- <x-dropdown>
+
+                            <x-slot name="trigger">
+
+                                <span
+                                    @class([
+                                        'text-sm block py-2 pl-3 pr-4 text-white bg-magenta-500 rounded lg:bg-transparent lg:text-magenta-500 lg:p-0 lg:font-semibold' => $link['active'], 
+                                        'text-sm block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-darkblue-400 lg:p-0 lg:font-semibold' => !$link['active']
+                                    ]) >
+                                    {{ $link['name'] }}
+                                </span>
+
+                                @foreach ($link['submenu'] as $item)
+                                    <x-dropdown.item :label="$item['name']" />
+                                @endforeach
+
+                            </x-slot>
+
+                        </x-dropdown> --}}
+
+                        <x-dropdown>
+                            <x-slot name="trigger">
+                                
+                                <div class="flex items-center">
+                                    <span
+                                        @class([
+                                            'text-sm block py-2 pl-3 pr-4 text-white bg-magenta-500 rounded lg:bg-transparent lg:text-magenta-500 lg:p-0 lg:font-semibold' => $link['active'], 
+                                            'text-sm block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-darkblue-400 lg:p-0 lg:font-semibold' => !$link['active']
+                                        ]) >
+                                        {{ $link['name'] }}
+                                    </span>
+
+                                    <i class="fa-solid fa-angle-down text-darkblue-500 ml-2"></i>
+                                </div>
+                            </x-slot>
+                         
+                            @foreach ($link['submenu'] as $item)
+                                <x-dropdown.item :label="$item['name']" :href="$item['route']" />
+                            @endforeach
+                            {{-- <x-dropdown.item separator label="Live Chat" />
+                            <x-dropdown.item separator label="Logout" /> --}}
+                        </x-dropdown>
+                    @else
+
+                        <li>
+                            <a href="{{ $link['route'] }}"
+                                @class([
+                                    'text-sm block py-2 pl-3 pr-4 text-white bg-magenta-500 rounded lg:bg-transparent lg:text-magenta-500 lg:p-0 lg:font-semibold' => $link['active'], 
+                                    'text-sm block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-darkblue-400 lg:p-0 lg:font-semibold' => !$link['active']
+                                ]) >
+                                {{ $link['name'] }}
+                            </a>
+                        </li>
+
+                    @endisset
 
                 @endforeach
                 

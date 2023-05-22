@@ -26,12 +26,12 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
             'cooperative_id' => auth()->user()->hasRole('farmacia') ? 'required|exists:cooperatives,id' : 'nullable',
             'nif' => ['required', 'string', 'max:9', 'regex:/^[0-9]{8}[A-Za-z]{1}$/'],
             'message' => 'nullable|string',
         ]);
+
 
         Cart::instance('shopping');
 

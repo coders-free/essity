@@ -24,8 +24,8 @@ class ProfileFactory extends Factory
             'province_id' => Province::all()->random()->id,
             'town_id' => Province::all()->random()->id,
             'phone' => $this->faker->phoneNumber,
-            'nif_1' => $this->faker->randomNumber(8) . $this->faker->randomLetter,
-            'nif_2' => $this->faker->randomNumber(8) . $this->faker->randomLetter,
+            'nif_1' => $this->faker->numberBetween(10000000, 99999999) . $this->faker->randomLetter,
+            'nif_2' => $this->faker->numberBetween(10000000, 99999999) . $this->faker->randomLetter,
             'max_orders_per_month' => 3
         ];
     }

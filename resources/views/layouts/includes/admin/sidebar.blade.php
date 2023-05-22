@@ -86,6 +86,13 @@
         ],
 
         [
+            'name' => 'Materiales digitales',
+            'icon' => 'fas fa-file-alt',
+            'route' => route('admin.digital-materials'),
+            'active' => request()->routeIs('admin.digital-materials'),
+        ],
+
+        [
             'name' => 'Videos',
             'icon' => 'fas fa-video',
             'route' => route('admin.webinars.index'),
