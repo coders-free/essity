@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Enums\TypeOptions;
 use App\Models\Feature;
 use App\Models\Option;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 
@@ -82,6 +83,17 @@ class Options extends Component
 
     }
 
+    public function removeOption(Option $option){
+
+        if($option->features()->count() > 0){
+            $this->emit('sweetAlert', 'error', 'Oops...', 'No se puede eliminar la opción porque tiene características asociadas');
+            return;
+        }
+
+        $option->delete();
+        $this->getOptions();
+    }
+
     //Add new feature
     public function addFeature(Option $option){
 
@@ -102,8 +114,14 @@ class Options extends Component
 
     public function removeFeature(Feature $feature){
         
-        $feature->delete();
-        $this->getOptions();
+        if (DB::table('feature_variant')->where('feature_id', $feature->id)->doesntExist()) {
+            $feature->delete();
+            $this->getOptions();
+
+            return;
+        }
+
+        $this->emit('sweetAlert', 'error', 'Oops...', 'No se puede eliminar la característica porque tiene variantes asociadas');
 
     }
 

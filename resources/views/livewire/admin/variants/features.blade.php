@@ -74,14 +74,6 @@
         <form wire:submit.prevent="store" class="bg-gray-100 rounded-lg shadow-lg p-6 mt-4 mb-6 hidden"
             :class="{ 'hidden': !open }">
 
-            {{-- <x-input label="Nuevo atributo"
-                wire:model.defer="name"
-                placeholder="Ingrese el nombre de una sección" /> --}}
-
-
-            {{-- {{$option->name}} --}}
-
-
             @switch($option->type)
                 @case(App\Enums\TypeOptions::Text)
 

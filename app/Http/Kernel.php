@@ -66,5 +66,8 @@ class Kernel extends HttpKernel
         'account-to-verify' => \App\Http\Middleware\AccountToVerify::class,
         '2fa' => \App\Http\Middleware\TwoFactorVerification::class,
         'is-admin' => \App\Http\Middleware\VerifyIsAdmin::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }

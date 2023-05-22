@@ -8,68 +8,93 @@
     ]
 ]">
 
-
-    <x-card>
-        <p>
-            <b>Usuario: </b>
-            {{ $order->user->name }}
-        </p>
-
-        <p>
-            <b>Cooperativa:</b>
-            {{ $order->cooperative->name }}
-        </p>
-
-        <p>
-            <b>Numero NIF:</b>
-            {{ $order->nif }}
-        </p>
-
-        @if ($order->message)
-            
+    <div class="mb-4">
+        <x-card title="Detalle">
             <p>
-                <b>Mensaje:</b>
-                {{ $order->message }}
+                <b>Usuario: </b>
+                {{ $order->user->name }}
             </p>
 
-        @endif
-
-        <p>
-            <b>Status:</b>
-            {{ $order->status ? 'Aprobado' : 'Pendiente' }}
-        </p>
-
-        <p>
-            <b>Fecha de creación:</b>
-            {{ $order->created_at->format('d/m/Y') }}
-        </p>
-
-
-        @if ($order->status)
-            
             <p>
-                <b>Fecha de aprobación:</b>
-                {{ $order->updated_at->format('d/m/Y') }}
+                <b>Cooperativa:</b>
+                {{ $order->cooperative->name }}
             </p>
-            
-        @endif
 
-        @if (!$order->status)
-            
-            <form action="{{route('admin.orders.approve', $order)}}" 
-                class="mt-2"
-                method="POST">
+            <p>
+                <b>Numero NIF:</b>
+                {{ $order->nif }}
+            </p>
 
-                @csrf
+            @if ($order->message)
+                
+                <p>
+                    <b>Mensaje:</b>
+                    {{ $order->message }}
+                </p>
 
-                <x-button type="submit" pink>
-                    Aprobar
-                </x-button>
-            </form>
+            @endif
 
-        @endif
+            <p>
+                <b>Status:</b>
+                {{ $order->status ? 'Aprobado' : 'Pendiente' }}
+            </p>
 
-    </x-card>
+            <p>
+                <b>Fecha de creación:</b>
+                {{ $order->created_at->format('d/m/Y') }}
+            </p>
+
+
+            @if ($order->status)
+                
+                <p>
+                    <b>Fecha de aprobación:</b>
+                    {{ $order->updated_at->format('d/m/Y') }}
+                </p>
+                
+            @endif
+
+            @if (!$order->status)
+                
+                <form action="{{route('admin.orders.approve', $order)}}" 
+                    class="mt-2"
+                    method="POST">
+
+                    @csrf
+
+                    <x-button type="submit" pink>
+                        Aprobar
+                    </x-button>
+                </form>
+
+            @endif
+
+        </x-card>
+    </div>
+
+    <div class="mb-4">
+        <x-card title="Descuentos">
+
+            <ul>
+                @foreach ($order->discounts as $discount)
+                
+                    <li>
+                        <b class="mr-2">
+                            {{ $discount->type }}:
+                        </b>
+
+                        <span>
+                            {{ $discount->discount }} %
+                        </span>
+
+                    </li>
+
+                @endforeach
+            </ul>
+
+        </x-card>
+    </div>
+
 
     <div class="space-y-8 mt-8 mb-12">
         @foreach ($order->content as $line => $categories)

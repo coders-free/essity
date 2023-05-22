@@ -33,33 +33,94 @@ class CartController extends Controller
             'message' => 'nullable|string',
         ]);
 
-        $orders_count = auth()->user()->orders()->whereMonth('created_at', '=', date('m'))->count();
-        $max_orders_per_month = auth()->user()->profile->max_orders_per_month;
-
-        $status = $max_orders_per_month > $orders_count;
-
         Cart::instance('shopping');
 
-        //Verificar el estado de la orden      
-        $qty_products_category = Cart::content()->groupBy(function($item){
-            return $item->options->category_id;
-        })->map(function($item){
-            return $item->sum('qty');
-        });
-
-        $categories = Category::whereIn('id', $qty_products_category->keys())->get();
+        //Calcular el estado del pedido
+        $status = true;
+        if (!auth()->user()->profile->unlimited) {
         
-        foreach ($categories as $category) {
-            $qty = $qty_products_category[$category->id];
-            if($qty > $category->maximum_orders){
-                $status = false;
+            //Pedidos por mes
+            $orders_count = auth()->user()->orders()->whereMonth('created_at', '=', date('m'))->count();
+            $max_orders_per_month = auth()->user()->profile->max_orders_per_month;
+
+            $status = $max_orders_per_month > $orders_count;
+
+            //Pedidos por categoria
+            $qty_products_category = Cart::content()->groupBy(function($item){
+                return $item->options->category_id;
+            })->map(function($item){
+                return $item->sum('qty');
+            });
+
+            $categories = Category::whereIn('id', $qty_products_category->keys())->get();
+            
+            foreach ($categories as $category) {
+                $qty = $qty_products_category[$category->id];
+                if($qty > $category->maximum_orders){
+                    $status = false;
+                }
             }
+
         }
         
         //Actualizar los productos
         Product::whereIn('id', Cart::content()->pluck('id'))->update([
             'purchase_made' => true,
         ]);
+
+        //Calcular descuentos
+        $content = Cart::content();
+        $discounts = auth()->user()->profile->cluster->discounts;
+        $dcto_total = [];
+
+        foreach ($discounts as $discount) {
+
+            $dcto = 0;
+            
+            if ($discount->discountable_type == Line::class) {
+                
+                $products_qty = $content->where('options.line_id', $discount->discountable_id)->sum('qty');
+            
+                foreach ($discount->content as $item) {
+                    
+                    if ($products_qty >= $item->quantity) {
+                        $dcto = $item->discount;
+                    }
+
+                }
+
+                if ($dcto > 0) {
+                    $dcto_total[] = [
+                        'type' => Line::find($discount->discountable_id)->name,
+                        'discount' => $dcto,
+                    ];
+                }
+
+            }
+
+            if ($discount->discountable_type == Category::class) {
+                
+                $products_qty = $content->whereIn('options.category_id', $discount->discountable_id)->sum('qty');
+            
+                foreach ($discount->content as $item) {
+                    
+                    if ($products_qty >= $item->quantity) {
+                        $dcto = $item->discount;
+                    }
+
+                }
+
+                if ($dcto > 0) {
+                    $dcto_total[] = [
+                        'type' => Category::find($discount->discountable_id)->name,
+                        'discount' => $dcto,
+                    ];
+                }
+
+
+            }
+
+        }
 
         //Reagrupar los productos por linea y categoria
         $content = Cart::content()->groupBy(function($item){
@@ -81,6 +142,7 @@ class CartController extends Controller
             'content' => $content,
             'message' => $request->message,
             'status' => $status,
+            'discounts' => $dcto_total,
         ]);
 
         //Vaciar el carrito

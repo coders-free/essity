@@ -14,7 +14,7 @@
                 <div class="p-6 rounded-lg border border-gray-200 relative" wire:key="option-{{$option->id}}">
 
                     <div class="absolute -top-3 px-4 bg-white">
-                        <button class="mr-2">
+                        <button class="mr-2" wire:click="removeOption({{$option->id}})">
                             <i class="fa-solid fa-trash-can text-red-500 hover:text-red-600"></i>
                         </button>
 
