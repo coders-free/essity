@@ -16,6 +16,8 @@ class Filter extends Component
 
     public $selected_features = [];
 
+    public $dcto_total;
+
     public $queryString = [
         'search' => ['except' => ''],
         'selected_categories' => ['except' => []],

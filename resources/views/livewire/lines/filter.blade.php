@@ -32,19 +32,32 @@
         <div class="mb-8 lg:flex-shrink-0 lg:ml-8 lg:w-80 lg:order-2">
             <x-card>
 
-                <h2 class="text-darkblue-500 font-semibold text-lg">
-                    Descuentos acumulados
-                </h2>
+                <div x-data="{open: false}">
+                    <h2 class="text-darkblue-500 font-semibold text-lg">
+                        Descuentos acumulados
+                    </h2>
 
-                <p class="my-2 text-sm">
-                    Actualmente aún no tiene ningún descuento basado en los articulos en su carro
-                </p>
+                    <p class="my-2 text-sm">
+                        Actualmente aún no tiene ningún descuento basado en los articulos en su carro
+                    </p>
 
-                <button class="text-magenta-500 font-semibold flex items-center text-sm">
-                    <i class="fa-solid fa-angle-right mr-2"></i>
-                    Ver todos los descuentos
-                </button>
+                    <button class="text-magenta-500 font-semibold flex items-center"
+                        x-on:click="open = !open">
+                        <i class="fa-solid fa-angle-right mr-2"></i>
+                        Ver todos los descuentos
+                    </button>
 
+                    <ul class="mt-2" style="display: none" x-show="open">
+                        @foreach ($dcto_total as $dcto)
+                            
+                            <li>
+                                <span class="font-semibold text-darkblue-500">{{ $dcto['type'] }}:</span>
+                                <span class="ml-2">{{ $dcto['discount'] }} %</span>
+                            </li>
+
+                        @endforeach
+                    </ul>
+                </div>
             </x-card>
         </div>
 

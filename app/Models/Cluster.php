@@ -12,4 +12,9 @@ class Cluster extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function discounts()
+    {
+        return $this->hasMany(Discount::class);
+    }
 }

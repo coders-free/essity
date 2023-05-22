@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('order_id')
+            $table->foreignId('cluster_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->onDelete('cascade');
 
-            $table->integer('value');
+            $table->morphs('discountable');
 
-            $table->text('description');
-
-
+            $table->json('content')
+                ->nullable();
+            
             $table->timestamps();
         });
     }

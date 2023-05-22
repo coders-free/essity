@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Line;
 use App\Models\Option;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 
 class LineController extends Controller
@@ -21,22 +22,66 @@ class LineController extends Controller
 
     public function show(Line $line)
     {
+
+        Cart::instance('shopping');
+        $content = Cart::content();
+
+        //Calcular descuentos
+        $discounts = auth()->user()->profile->cluster->discounts;
+        $dcto_total = [];
+
+        foreach ($discounts as $discount) {
+
+            $dcto = 0;
+            
+            if ($discount->discountable_type == Line::class) {
+                
+                $products_qty = $content->where('options.line_id', $discount->discountable_id)->sum('qty');
+            
+                foreach ($discount->content as $item) {
+                    
+                    if ($products_qty >= $item->quantity) {
+                        $dcto = $item->discount;
+                    }
+
+                }
+
+                if ($dcto > 0) {
+                    $dcto_total[] = [
+                        'type' => Line::find($discount->discountable_id)->name,
+                        'discount' => $dcto,
+                    ];
+                }
+
+            }
+
+            if ($discount->discountable_type == Category::class) {
+                
+                $products_qty = $content->whereIn('options.category_id', $discount->discountable_id)->sum('qty');
+            
+                foreach ($discount->content as $item) {
+                    
+                    if ($products_qty >= $item->quantity) {
+                        $dcto = $item->discount;
+                    }
+
+                }
+
+                if ($dcto > 0) {
+                    $dcto_total[] = [
+                        'type' => Category::find($discount->discountable_id)->name,
+                        'discount' => $dcto,
+                    ];
+                }
+
+
+            }
+
+        }
+
         $lines = Line::all();
         
-        return view('lines.show', compact('line', 'lines'));
+        return view('lines.show', compact('line', 'lines', 'dcto_total'));
 
-        /* $line->load(['categories', 'categories.products']); */
-
-        $line->load(['categories' => function($query){
-            $query->when(request('category_id'), function($query, $category_id){
-                $query->where('id', $category_id);
-            })->with('products');
-        }]);
-
-
-        $lines = Line::all();
-        $categories = Category::where('line_id', $line->id)->get();
-
-        return view('lines.show', compact('line', 'lines', 'categories'));
     }
 }

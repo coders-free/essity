@@ -12,43 +12,47 @@
     ]
 ]">
 
-    <x-card>
+    <div class="mb-4">
+        <x-card>
 
-        <form action="{{route('admin.clusters.update', $cluster)}}" 
-            method="POST">
+            <form action="{{route('admin.clusters.update', $cluster)}}" 
+                method="POST">
 
-            @csrf
-            @method('PUT')
+                @csrf
+                @method('PUT')
 
-            <div class="mb-4">
-                <x-input label="Nombre" 
-                    name="name"
-                    value="{{old('name', $cluster->name)}}"
-                    placeholder="Escriba el nombre del cluster" />
-            </div>
+                <div class="mb-4">
+                    <x-input label="Nombre" 
+                        name="name"
+                        value="{{old('name', $cluster->name)}}"
+                        placeholder="Escriba el nombre del cluster" />
+                </div>
 
-            <div class="flex justify-end space-x-2">
+                <div class="flex justify-end space-x-2">
 
-                <x-button dark
-                    onclick="document.getElementById('miFormulario').submit();">
-                    Eliminar
-                </x-button>
+                    <x-button dark
+                        onclick="document.getElementById('miFormulario').submit();">
+                        Eliminar
+                    </x-button>
 
-                <x-button pink type="submit">
-                    Actualizar
-                </x-button>
-            </div>
+                    <x-button pink type="submit">
+                        Actualizar
+                    </x-button>
+                </div>
 
-        </form>
+            </form>
 
-    </x-card>
+            <form action="{{route('admin.clusters.destroy', $cluster)}}" 
+                method="POST" 
+                id="miFormulario">
+                @csrf
 
-    <form action="{{route('admin.clusters.destroy', $cluster)}}" 
-        method="POST" 
-        id="miFormulario">
-        @csrf
+                @method('DELETE')
+            </form>
 
-        @method('DELETE')
-    </form>
+        </x-card>
+    </div>
+
+    @livewire('admin.clusters.discounts', ['cluster' => $cluster])
 
 </x-admin-layout>

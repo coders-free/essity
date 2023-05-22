@@ -39,4 +39,9 @@ class Line extends Model
     public function categories(){
         return $this->hasMany(Category::class);
     }
+
+    //Relacion uno a muchos polimorfica
+    public function discounts(){
+        return $this->morphMany(Discount::class, 'discountable');
+    }
 }

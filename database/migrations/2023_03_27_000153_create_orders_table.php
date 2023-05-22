@@ -30,6 +30,7 @@ return new class extends Migration
             $table->boolean('status')->default(true);
 
             $table->json('content');
+            $table->json('discounts')->nullable();
 
             $table->timestamps();
         });

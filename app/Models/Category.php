@@ -25,4 +25,9 @@ class Category extends Model
         return $this->belongsTo(Line::class);
     }
 
+    //Relacion uno a muchos polimorfica
+    public function discounts(){
+        return $this->morphMany(Discount::class, 'discountable');
+    }
+
 }

@@ -41,4 +41,8 @@ class Profile extends Model
         return $this->belongsTo(Town::class);
     }
 
+    public function cluster(){
+        return $this->belongsTo(Cluster::class);
+    }
+
 }

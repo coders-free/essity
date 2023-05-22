@@ -181,24 +181,6 @@
                         <i class="fa-solid fa-trash-can text-red-500"></i>
                     </button>
 
-                    {{-- <div class="grid grid-cols-2 gap-6">
-                        <div>
-                            <x-input
-                                label="Valor"
-                                wire:model="fields.{{$index}}.value"
-                                placeholder="Ingrese el valor de la opción"
-                            />
-                        </div>
-
-                        <div>
-                            <x-input
-                                label="Etiqueta"
-                                wire:model="fields.{{$index}}.label"
-                                placeholder="Ingrese la etiqueta de la opción"
-                            />
-                        </div>
-                    </div> --}}
-
                     <x-native-select label="Valores" 
                         wire:model="fields.{{$index}}.id"
                         wire:change="field_change({{$index}})">

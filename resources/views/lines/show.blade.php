@@ -5,7 +5,8 @@
 
         @livewire('lines.filter', [
             'line' => $line, 
-            'lines' => $lines
+            'lines' => $lines,
+            'dcto_total' => $dcto_total,
         ], key($line->id))
 
     </x-container>

@@ -16,10 +16,12 @@ class Order extends Model
         'message',
         'status',
         'content',
+        'discounts',
     ];
 
     protected $casts = [
         'content' => 'object',
+        'discounts' => 'object',
     ];
 
     public function scopeFilter($query, $filters){
