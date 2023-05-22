@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'line_id' => $this->faker->numberBetween(1, 4),
-            'maximum_orders' => $this->faker->randomElement([50, 100, 150]),
+            'maximum_orders' => 10,
         ];
     }
 }

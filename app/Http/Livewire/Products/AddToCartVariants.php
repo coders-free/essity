@@ -6,14 +6,19 @@ use App\Models\Feature;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
+use WireUi\Traits\Actions;
 
 class AddToCartVariants extends Component
 {
+    use Actions;
 
     public $product;
     public $qty = 0;
 
     public $selectedFeatures = [];
+
+    public $instance = 'shopping';
+    public $type = 'simple';
 
     public function mount()
     {
@@ -49,6 +54,7 @@ class AddToCartVariants extends Component
                 'code' => $this->variant->code,
                 'line_id' => $this->product->category->line_id,
                 'category_id' => $this->product->category_id,
+                'type' => $this->type,
                 'features' => Feature::whereIn('id', $this->selectedFeatures)
                                     ->pluck('description', 'id')
                                     ->toArray()
@@ -60,12 +66,17 @@ class AddToCartVariants extends Component
     public function add_to_cart()
     {
         
-        Cart::instance('shopping');
+        Cart::instance($this->instance);
 
         Cart::add($this->item)
             ->associate(Product::class);
 
         Cart::store(auth()->id());
+
+        $this->notification()->success(
+            $title = 'Producto agregado al carrito',
+            $description = 'El producto se agregó al carrito con éxito.'
+        );
 
     }
 

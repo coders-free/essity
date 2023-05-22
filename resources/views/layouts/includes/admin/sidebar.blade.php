@@ -65,10 +65,31 @@
         ],
 
         [
+            'name' => 'Clusters',
+            'icon' => 'fa-solid fa-circle-nodes',
+            'route' => route('admin.clusters.index'),
+            'active' => request()->routeIs('admin.clusters.*'),
+        ],
+
+        [
             'name' => 'Ordenes',
             'icon' => 'fas fa-shopping-cart',
             'route' => route('admin.orders.index'),
             'active' => request()->routeIs('admin.orders.*'),
+        ],
+
+        [
+            'name' => 'Ordenes de muestras',
+            'icon' => 'fas fa-flask',
+            'route' => route('admin.samples.index'),
+            'active' => request()->routeIs('admin.samples.*'),
+        ],
+
+        [
+            'name' => 'Videos',
+            'icon' => 'fas fa-video',
+            'route' => route('admin.webinars.index'),
+            'active' => request()->routeIs('admin.webinars.*'),
         ],
 
         [

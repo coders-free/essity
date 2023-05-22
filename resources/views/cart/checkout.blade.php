@@ -113,13 +113,13 @@
                     </div>
 
                     <div class="flex justify-between">
-                        <a href="{{route('orders.cart.index')}}" class="btn btn-outline-magenta">
+                        <x-button pink outline href="{{route('orders.cart.index')}}">
                             Volver
-                        </a>
+                        </x-button>
 
-                        <button class="btn btn-blue">
-                            Enviar
-                        </button>
+                        <x-button pink type="submit">
+                            Hacer pedido
+                        </x-button>
                     </div>
                 </form>
 

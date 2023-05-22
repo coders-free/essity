@@ -9,7 +9,17 @@
                     </button>
 
                     <a href="{{route('orders.cart.index')}}" class="mx-4">
-                        <i class="fa-solid fa-cart-shopping text-magenta-500 text-lg"></i>
+                        
+                        <span class="relative inline-block">
+                            <i class="fa-solid fa-cart-shopping text-magenta-500 text-lg"></i>
+
+                            @if (Cart::instance('shopping')->count())
+                                <span class="absolute top-0.5 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-full">
+                                    {{ Cart::count() }}
+                                </span>
+                            @endif
+                            
+                        </span>
                     </a>
                 </div>
             </x-slot>
@@ -177,7 +187,7 @@
                                     <article class="border border-gray-200 p-4">
 
                                         <figure class="mb-4">
-                                            <img class="aspect-square object-cover object-center" src="{{$product->image}}" alt="">
+                                            <img class="aspect-square object-cover object-center w-full" src="{{$product->image}}" alt="">
                                         </figure>
 
                                         <p class="text-gray-500">

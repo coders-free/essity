@@ -96,7 +96,7 @@
                             <i class="fa-solid fa-circle-plus text-xl text-magenta-500"></i>
                         </button>
 
-                        <x-button pink spinner class="ml-6" x-bind:disabled="qty == 0" wire:click="add_to_cart()">
+                        <x-button pink class="ml-6" x-bind:disabled="qty == 0" wire:click="add_to_cart()">
                             Agregar al carrito
                         </x-button>
                     </div>

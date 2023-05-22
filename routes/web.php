@@ -13,6 +13,8 @@ use App\Models\Category;
 use App\Models\Option;
 use Illuminate\Support\Facades\Route;
 
+use Gloudemans\Shoppingcart\Facades\Cart;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,6 +61,24 @@ Route::middleware(['auth'])->group(function () {
         Route::get('samples', [SampleController::class, 'index'])
             ->name('samples.index');
 
+        Route::get('samples/products/{product}/free-sample', [SampleController::class, 'freeSample'])
+            ->name('samples.free-sample');
+
+        Route::get('samples/products/{product}/plv-material', [SampleController::class, 'plvMaterial'])
+            ->name('samples.plv-material');
+
+        Route::get('samples/cart', [SampleController::class, 'cart'])
+            ->name('samples.cart');
+
+        Route::get('samples/cart/checkout', [SampleController::class, 'checkout'])
+            ->name('samples.cart.checkout');
+
+        Route::post('samples/cart/checkout', [SampleController::class, 'store'])
+            ->name('samples.cart.store');
+
+        Route::get('samples/gracias/{orderSample}', [SampleController::class, 'thanks'])
+            ->name('samples.thanks');
+
         Route::get('webinars', [WebinarController::class, 'index'])
             ->name('webinars.index');
     
@@ -97,8 +117,10 @@ Route::get('/dashboard', function () {
 
 Route::get('prueba', function () {
 
-    $product = App\Models\Product::find(145);
-    
-    return $product->options;
+    Cart::instance('sample');
+
+    return Cart::content()->groupBy(function($item){
+        return $item->options->type;
+    });
 
 });

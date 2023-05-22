@@ -80,6 +80,11 @@
                 <x-toggle md label="Muestras gratis" name="free_sample" value="1" :checked="old('free_sample', $product->free_sample)" />
             </div>
 
+            <div class="mb-4">
+                <input type="hidden" name="plv_material" value="0">
+                <x-toggle md label="Material PLV" name="plv_material" value="1" :checked="old('plv_material', $product->plv_material)" />
+            </div>
+
             <div class="flex justify-end">
 
                 <x-button pink type="submit">
@@ -92,8 +97,10 @@
 
     </form>
 
-    
-
+    <div class="mb-12">
+        
+        @livewire('admin.products.specifications', ['product' => $product], key('specifications-'.$product->id))
+    </div>
 
     @livewire('admin.products.variants', ['product' => $product], key($product->id))
 

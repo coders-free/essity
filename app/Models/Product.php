@@ -18,11 +18,14 @@ class Product extends Model
         'image_url',
         'category_id',
         'free_sample',
-        'plv_material'
+        'plv_material',
+        'purchase_made'
     ];
 
     protected $casts = [
         'free_sample' => 'boolean',
+        'plv_material' => 'boolean',
+        'purchase_made' => 'boolean',
     ];
 
     //Mutators

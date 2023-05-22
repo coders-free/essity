@@ -41,7 +41,8 @@
                 </div>
 
                 <div class="card">
-                    <a class="aspect-square flex flex-col justify-center items-center">
+                    <a class="aspect-square flex flex-col justify-center items-center" 
+                        href="{{route('samples.index')}}">
                         
                         <img src="{{asset('img/home/frame/2.png')}}" class="mb-8" alt="">
 
@@ -53,7 +54,11 @@
                 </div>
 
                 <div class="card">
-                    <a class="aspect-square flex flex-col justify-center items-center">
+                    
+                    <a class="aspect-square flex flex-col justify-center items-center"
+                        href="{{route('samples.index', [
+                            'type' => 'plv_material'
+                        ])}}">
                         
                         <img src="{{asset('img/home/frame/3.png')}}" class="mb-8" alt="">
 

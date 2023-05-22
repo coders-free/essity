@@ -65,10 +65,18 @@
 
     <!-- Styles -->
     @livewireStyles
+
+    <style>
+        .z-60 {
+            z-index: 60;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased bg-gray-50">
     <x-banner />
+
+    <x-notifications z-index="z-60" />
 
     <div class="bg-darkblue-500">
 

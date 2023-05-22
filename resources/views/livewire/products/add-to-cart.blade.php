@@ -54,9 +54,9 @@
                             <i class="fa-solid fa-circle-plus text-xl text-magenta-500"></i>
                         </button>
 
-                        <button class="btn btn-magenta ml-6" x-bind:disabled="qty == 0" wire:click="add_to_cart()">
+                        <x-button pink class="ml-6" x-bind:disabled="qty == 0" wire:click="add_to_cart()">
                             Agregar al carrito
-                        </button>
+                        </x-button>
                     </div>
 
                     <h2 class="text-xl font-semibold mb-4">Detalle</h2>

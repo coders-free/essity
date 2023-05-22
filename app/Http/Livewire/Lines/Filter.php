@@ -32,8 +32,12 @@ class Filter extends Component
 
         return Option::whereHas('products', function($query){
 
-            $query->whereHas('category.line', function($query){
-                $query->where('id', $this->line->id);
+            $query->whereHas('category', function($query){
+                $query->when($this->selected_categories, function($query){
+                    $query->whereIn('id', $this->selected_categories);
+                })->whereHas('line', function($query){
+                    $query->where('id', $this->line->id);
+                });
             })->whereDoesntHave('variants', function ($query){
 
                 $query->where(function($query){
@@ -47,8 +51,12 @@ class Filter extends Component
     
             $query->whereHas('variants.product', function($query) {
                 
-                $query->whereHas('category.line', function($query){
-                    $query->where('id', $this->line->id);
+                $query->whereHas('category', function($query){
+                    $query->when($this->selected_categories, function($query){
+                        $query->whereIn('id', $this->selected_categories);
+                    })->whereHas('line', function($query){
+                        $query->where('id', $this->line->id);
+                    });
                 })->whereDoesntHave('variants', function ($query){
     
                     $query->where(function($query){
@@ -69,18 +77,21 @@ class Filter extends Component
         return Category::where('line_id', $this->line->id)
                         ->when($this->selected_categories, function($query){
                             $query->whereIn('id', $this->selected_categories);
-                        })->when($this->selected_features, function($query){
-                            
-                            $query->whereHas('products.variants.features', function($query){
-                                $query->whereIn('features.id', $this->selected_features);
-                            });
+                        })->whereHas('products', function($query){
 
-                        })->when($this->search, function($query){
-                            
-                            $query->whereHas('products', function($query){
+                            $query->when($this->search, function($query){ 
                                 $query->where('name', 'like', '%'.$this->search.'%');
+                            })->when($this->selected_features, function($query){
+                                $query->whereHas('variants.features', function($query){
+                                    $query->whereIn('features.id', $this->selected_features);
+                                });
+                            })->whereDoesntHave('variants', function ($query){
+                                $query->where(function($query){
+                                    $query->whereNull('code')
+                                        ->orWhereNull('image_url');
+                                });
                             });
-
+                            
                         })
                         ->with(['products' => function($query){
 

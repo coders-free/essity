@@ -108,6 +108,7 @@ class ProductController extends Controller
             'image' => 'nullable|image',
             'category_id' => 'required|exists:categories,id',
             'free_sample' => 'boolean',
+            'plv_material' => 'boolean',
         ]);
 
         if ($request->hasFile('image')) {

@@ -26,6 +26,7 @@ class ProfileFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'nif_1' => $this->faker->randomNumber(8) . $this->faker->randomLetter,
             'nif_2' => $this->faker->randomNumber(8) . $this->faker->randomLetter,
+            'max_orders_per_month' => 3
         ];
     }
 }

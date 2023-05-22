@@ -11,8 +11,10 @@ use Livewire\Component;
 class Cart extends Component
 {
 
+    public $instance = 'shopping';
+
     public function getLinesProperty(){
-        CartFacade::instance('shopping');
+        CartFacade::instance($this->instance);
 
         return CartFacade::content()->groupBy(function($item){
             $line = Line::find($item->options->line_id);
@@ -27,10 +29,19 @@ class Cart extends Component
 
     }
 
+    public function getTypesProperty(){
+        CartFacade::instance($this->instance);
+
+        return CartFacade::content()->groupBy(function($item){
+            return $item->options->type;
+        });
+
+    }
+
     //Disminuir la cantidad de un producto
     public function decrease($rowId){
 
-        CartFacade::instance('shopping');
+        CartFacade::instance($this->instance);
         $item = CartFacade::get($rowId);
 
         if($item->qty == 1){
@@ -49,7 +60,7 @@ class Cart extends Component
     //Aumentar la cantidad de un producto
     public function increase($rowId){
 
-        CartFacade::instance('shopping');
+        CartFacade::instance($this->instance);
         $item = CartFacade::get($rowId);
         $qty = $item->qty + 1;
         CartFacade::update($rowId, $qty);
@@ -58,14 +69,14 @@ class Cart extends Component
     }
 
     public function remove($rowId){
-        CartFacade::instance('shopping');
+        CartFacade::instance($this->instance);
         CartFacade::remove($rowId);
 
         CartFacade::store(auth()->id());
     }
 
     public function destroy(){
-        CartFacade::instance('shopping');
+        CartFacade::instance($this->instance);
         CartFacade::destroy();
 
         CartFacade::store(auth()->id());
@@ -82,7 +93,10 @@ class Cart extends Component
 
         $this->destroy();
 
-        return redirect()->route('products.history');
+        if ($this->instance == 'shopping') {
+            return redirect()->route('products.history');
+        }
+
     }
 
     public function render()

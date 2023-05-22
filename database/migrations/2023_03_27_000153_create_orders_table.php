@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table->text('message')->nullable();
 
-            $table->boolean('status')->default(false);
+            $table->boolean('status')->default(true);
 
             $table->json('content');
 

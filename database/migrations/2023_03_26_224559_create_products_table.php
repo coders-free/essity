@@ -30,6 +30,8 @@ return new class extends Migration
             $table->boolean('free_sample')->default(false);
             $table->boolean('plv_material')->default(false);
 
+            $table->boolean('purchase_made')->default(false);
+
             $table->timestamps();
         });
     }

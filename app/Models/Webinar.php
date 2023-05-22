@@ -27,7 +27,7 @@ class Webinar extends Model
                 $regex = '%^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=))([\w-]{10,12})$%x';
                 
                 if (preg_match($regex, $url, $matches)) {
-                    return $matches[1];
+                    return 'https://www.youtube.com/embed/' . $matches[1];
                 }
 
                 return $this->video_url;
