@@ -5,7 +5,7 @@
         <x-slot name="action">
             <button class="text-blue-600 hover:text-blue-500"
                 wire:click="$set('open', true)">
-                Agregar nueva opción
+                Agregar nueva descuento
             </button>
         </x-slot>
 

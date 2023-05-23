@@ -14,6 +14,7 @@ class DigitalMaterials extends Component
     use WithFileUploads;
 
     public $name;
+    public $image;
     public $file;
 
     public $file_id = '123';
@@ -32,15 +33,17 @@ class DigitalMaterials extends Component
     public function save(){
         $this->validate([
             'name' => 'required',
+            'image' => 'required|image|max:1024',
             'file' => 'required'
         ]);
 
         DigitalMaterial::create([
             'name' => $this->name,
-            'path' => $this->file->store('digital-materials', 'public')
+            'image_url' => $this->image->store('digital-materials/image', 'public'),
+            'path' => $this->file->store('digital-materials/files', 'public')
         ]);
 
-        $this->reset('name', 'file');
+        $this->reset('name', 'file', 'image');
         $this->file_id = rand();
 
         $this->getDigitalMaterials();

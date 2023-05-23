@@ -76,28 +76,32 @@
         </x-card>
     </div>
 
-    <div class="mb-4">
-        <x-card title="Descuentos">
+    @if ($order->discounts)
+        
+        <div class="mb-4">
+            <x-card title="Descuentos">
 
-            <ul>
-                @foreach ($order->discounts as $discount)
-                
-                    <li>
-                        <b class="mr-2">
-                            {{ $discount->type }}:
-                        </b>
+                <ul>
+                    @foreach ($order->discounts as $discount)
+                    
+                        <li>
+                            <b class="mr-2">
+                                {{ $discount->type }}:
+                            </b>
 
-                        <span>
-                            {{ $discount->discount }} %
-                        </span>
+                            <span>
+                                {{ $discount->discount }} %
+                            </span>
 
-                    </li>
+                        </li>
 
-                @endforeach
-            </ul>
+                    @endforeach
+                </ul>
 
-        </x-card>
-    </div>
+            </x-card>
+        </div>
+
+    @endif
 
 
     <div class="space-y-8 mt-8 mb-12">

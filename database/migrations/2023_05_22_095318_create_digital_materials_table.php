@@ -12,12 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('digital_materials', function (Blueprint $table) {
+
             $table->id();
 
             $table->string('name');
+
+            $table->string('image_url');
+
             $table->string('path')->nullable();
 
             $table->timestamps();
+            
         });
     }
 

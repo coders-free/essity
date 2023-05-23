@@ -2,7 +2,8 @@
 
     <section class="grid grid-cols-1 lg:grid-cols-5 mb-12">
         <div class="lg:col-span-2">
-            <img src="{{asset('img/home/TENA-Women-Lights-Range-1.png')}}" alt="" class="w-full">
+            <img src="{{asset('img/home/TENA-Women-Lights-Range-1.png')}}" 
+            class="w-full h-full object-cover object-center">
         </div>
 
         <div class="lg:col-span-3 bg-darkblue-500">

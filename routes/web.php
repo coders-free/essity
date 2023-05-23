@@ -4,6 +4,7 @@ use App\Http\Controllers\LineController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SampleController;
 use App\Http\Controllers\ThankController;
@@ -78,6 +79,12 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('samples/gracias/{orderSample}', [SampleController::class, 'thanks'])
             ->name('samples.thanks');
+
+        Route::get('materials', [MaterialController::class, 'index'])
+            ->name('materials.index');
+
+        Route::get('materials/{material}/download', [MaterialController::class, 'download'])
+            ->name('materials.download');
 
         Route::get('webinars', [WebinarController::class, 'index'])
             ->name('webinars.index');
