@@ -15,7 +15,7 @@ class Options extends Component
 
     public $new_option = [
         'name' => '',
-        'type' => TypeOptions::Text->value
+        'type' => 1
     ];
 
     public $fields = [

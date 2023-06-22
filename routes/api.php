@@ -69,3 +69,10 @@ Route::get('/features', function(Request $request){
             ->get();
 
 })->name('api.features.index');
+
+
+//Callback Essity Shop
+Route::post('callback/essity-shop', function(Request $request){
+    
+});
+    

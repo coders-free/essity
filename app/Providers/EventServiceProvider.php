@@ -25,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\Login\RestoreCartItems::class,
             \App\Listeners\Login\TwoFactorVerification::class,
         ],
+
+        \App\Events\Order\OrderCreated::class => [
+            \App\Listeners\Order\SendOrderCreatedCrm::class,
+        ],
     ];
 
     /**

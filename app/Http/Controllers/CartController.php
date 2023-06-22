@@ -145,6 +145,9 @@ class CartController extends Controller
             'discounts' => $dcto_total,
         ]);
 
+        //Orden creada
+        /* event(new \App\Events\Order\OrderCreated($order)); */
+
         //Vaciar el carrito
         Cart::destroy();
         Cart::store(auth()->id());

@@ -64,6 +64,8 @@ class SampleController extends Controller
             'content' => $content,
         ]);
 
+        
+
         Cart::destroy();
         Cart::store(auth()->id());
 

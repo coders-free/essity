@@ -118,16 +118,89 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-/* Route::view('prueba', 'emails.welcome-message'); */
-
-
-
 Route::get('prueba', function () {
 
-    Cart::instance('sample');
+    $order = \App\Models\Order::find(1);
 
-    return Cart::content()->groupBy(function($item){
-        return $item->options->type;
-    });
+    $salesOrders = [
+        'MessageHeader' => [
+            'CreationDateTime' => $order->created_at->format('Y-m-d\TH:i:s\Z'),
+            'SenderBusinessSystemID' => 'eShopHMS_ES',
+        ],
+        'orderHeader' => [
+            'salesOrganization' => 'DE680100',
+            'number' => $order->id,
+            'extension' => [
+                'lifecycleStatus' => '798030000'
+            ]
+        ],
+        'organizationalData' => [
+            [
+                'qualifier' => 'ZCRM',
+                'organizationID' => '798030001'
+            ],
+            [
+                'qualifier' => 'ZDIV',
+                'organizationID' => '220'
+            ],
+            [
+                'qualifier' => 'ZDST',
+                'organizationID' => '798030000'
+            ]
+        ],
+        'partners' => [
+            [ 
+                "function" => "WE", 
+                "number" => "50128763", 
+                "referenceCode" => "123456" 
+            ],
+            [
+                "function" => "AG", 
+                "number" => "1556457", 
+                "email" => "123@test.com" 
+            ]
+        ],
+        'texts' => [
+            'textTypeID' => 'INF',
+            'lines' => [
+                'line' => 'Created by Spain Eshop'
+            ]
+        ],
+        'items' => []
+    ];
 
-});
+    foreach ($order->content as $line => $categories) {
+        
+        foreach ($categories as $category => $items) {
+            
+            foreach ($items as $item) {
+        
+                $salesOrders['items'][] = [
+                    "quantity" => $item->qty,
+                    "unit" => "", 
+                    "freeQuantity" => "", 
+                    "freeQuantityUnit" => "",
+                    "material" => [ 
+                        [ 
+                            "qualifier" => "001", 
+                            "ID" => "1084048" 
+                        ], 
+                        [ 
+                            "qualifier" => "003", 
+                            "ID" => "112233" 
+                        ] 
+                    ],
+                    'conditions' => [
+                        'indicator' => '-',
+                        'ratePercentage' => 0
+                    ]
+                ];
+
+            }
+        }
+
+    }
+
+    return $salesOrders;
+
+})->name('prueba');
